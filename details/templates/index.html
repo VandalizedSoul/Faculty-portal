@@ -1,0 +1,13 @@
+<html>
+
+<body>
+	<form method="post" action="/faculty/addFaculty" enctype="multipart/form-data">{% csrf_token %}
+		name:<input type="text" id="name"name="name"/><br/>
+		designation:<input type="designation" id="designation"name="designation"/><br/>
+		<input type="file" name="profile" />
+		<button type="submit" class="btn btn-2">Register</button>
+	</form>
+  
+</body>
+
+</html>

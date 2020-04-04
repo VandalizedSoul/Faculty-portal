@@ -26,12 +26,14 @@ SECRET_KEY = 'hh*lzxt5sl!*zhok)qj9w&j7e6qv@8c7l8svl&!1u#1ll5ec62'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Application definition
 
 INSTALLED_APPS = [
     'details',
+    'login',
     'phonenumber_field',
     'django.contrib.admin',
     'django.contrib.auth',

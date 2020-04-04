@@ -44,7 +44,7 @@ class Award(models.Model):
 class Organization(models.Model):
     organization_name = models.CharField(max_length=30)
     position = models.CharField(max_length=30)
-    discription = models.TextField()
+    description = models.TextField()
     duration = models.IntegerField(max_length=3)
 
     class Meta:
@@ -52,6 +52,7 @@ class Organization(models.Model):
 
 
 class Faculty(models.Model):
+    # faculty_id = models.CharField(validators=[RegexValidator(regex='^.{7}$', message='Length has to be 4')])
     faculty_name = models.CharField(max_length=30,null=True)
     designation = models.CharField(max_length=30,null=True)
     department = models.CharField(max_length=30,null=True)
@@ -66,8 +67,27 @@ class Faculty(models.Model):
     biography = models.TextField(null=True)
     specializations = models.ArrayField(model_container=Topic,null=True)
     teaching_interests = models.ArrayField(model_container=Topic,null=True)
-    accomplishments = models.ArrayField(model_container=Topic,null=True)
+    # accomplishments = models.ArrayField(model_container=Topic,null=True)
     publications = models.ArrayField(model_container=Publication,null=True)
     awards = models.ArrayField(model_container=Award,null=True)
     organizations = models.ArrayField(model_container=Organization,null=True)
     faculty_type = models.CharField(max_length=10,null=True)
+
+class Access(models.Model):
+    faculty_id = models.BooleanField() 
+    faculty_name = models.BooleanField() 
+    designation = models.BooleanField() 
+    department = models.BooleanField() 
+    image = models.BooleanField() 
+    qualifications = models.BooleanField() 
+    phone = models.BooleanField() 
+    email = models.BooleanField() 
+    website = models.BooleanField() 
+    office = models.BooleanField() 
+    biography = models.BooleanField() 
+    specializations = models.BooleanField() 
+    teaching_interests = models.BooleanField() 
+    publications = models.BooleanField() 
+    awards = models.BooleanField() 
+    organizations = models.BooleanField() 
+    faculty_type = models.BooleanField() 

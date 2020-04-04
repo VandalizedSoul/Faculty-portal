@@ -1,0 +1,24 @@
+
+<html>
+
+  <body>
+
+   
+
+    
+      <h1>Login</h1>
+
+       
+			<form action="/login/auth" method="POST" >{% csrf_token %}
+                <input type="text" placeholder=" " name="username" id="username" required>
+            <label for="username" >Username</label>
+            <input type="password" placeholder=" " name="password"  id="password" required>
+            <label for="password" >Password</label>
+            <button type="submit" >Login</button>
+      </form>
+        
+      <form action="/login/signup" method="POST" >{% csrf_token %}
+          <button type="submit" x>SignUp</button>
+        </form>
+  </body>
+</html>
