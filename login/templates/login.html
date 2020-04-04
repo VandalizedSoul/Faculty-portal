@@ -4,21 +4,28 @@
   <body>
 
    
+    <h5>
+      {% if messages %}
+        {% for message in messages %}
 
+            
+              {{message}}
+   
+        {% endfor %}
+      {% endif %}
+   </h5>
     
       <h1>Login</h1>
-
-       
-			<form action="/login/auth" method="POST" >{% csrf_token %}
+      <form action="/login/auth" method="POST" >{% csrf_token %}
                 <input type="text" placeholder=" " name="username" id="username" required>
             <label for="username" >Username</label>
             <input type="password" placeholder=" " name="password"  id="password" required>
             <label for="password" >Password</label>
             <button type="submit" >Login</button>
       </form>
-        
+        <br/>
       <form action="/login/signup" method="POST" >{% csrf_token %}
-          <button type="submit" x>SignUp</button>
+          <button type="submit" x>Generate new password</button>
         </form>
   </body>
 </html>

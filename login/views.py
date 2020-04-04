@@ -32,7 +32,7 @@ def auth_view(request):
         else:
             print("incorrect cred")
             messages.add_message(request, messages.WARNING, 'Incorect Username or Password')
-            return HttpResponseRedirect('/faculty/show')
+            return HttpResponseRedirect('/login')
     except:
         return render(request,'login.html')
 
