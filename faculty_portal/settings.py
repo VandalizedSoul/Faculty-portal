@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'details',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -74,12 +75,28 @@ WSGI_APPLICATION = 'faculty_portal.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'default': {
+            'ENGINE': 'djongo',
+            'ENFORCE_SCHEMA': True,
+            'LOGGING': {
+                'version': 1,
+                'loggers': {
+                    'djongo': {
+                        'level': 'DEBUG',
+                        'propogate': False,
+                    }
+                },
+             },
+            'NAME': 'facultyPortaldb',
+            'CLIENT': {
+                # 'host': 'mongodb://<username>:<password>@dsxxxxxx.mlab.com:xxxxx/<dbName>?retryWrites=false',
+                'host' : 'mongodb://vivek:vivek@cluster0-shard-00-00-3nu9w.gcp.mongodb.net:27017,cluster0-shard-00-01-3nu9w.gcp.mongodb.net:27017,cluster0-shard-00-02-3nu9w.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority',
+                'port': 27017,
+                'username': 'vivek',
+                'password': 'vivek',
+            }
+        }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
