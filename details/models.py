@@ -73,7 +73,7 @@ class Organization(models.Model):
 
 
 class Faculty(models.Model):
-    faculty_id = models.CharField(max_length=7, null=False)
+    faculty_id = models.CharField(max_length=7, null=True)
     faculty_name = models.CharField(max_length=30, null=True)
     designation = models.CharField(max_length=30, null=True)
     department = models.CharField(max_length=2, choices=DEPT_LIST, null=False, default='CE')

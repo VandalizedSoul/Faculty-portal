@@ -10,17 +10,17 @@ def index(request):
   department = request.POST.get('department', '')
   image = request.FILES.get('image')
   print("Dataa", designation, department)
-  f = Faculty(phone=PhoneNumber.from_string(phone_number="9913419556", region='IN').as_e164, faculty_name="ravi",
-        designation="asst. prof.", department="ce", qualifications=[Qualification(degree="U.G.", institute="D.D.U", year=2020),
-        Qualification(degree="P.G.", institute="Oxford", year=2024)], email="rv@gmail.com", website="http://www.google.com",
+  f = Faculty(faculty_id='16CE001',phone=PhoneNumber.from_string(phone_number="9913419556", region='IN').as_e164, faculty_name="ravi",
+        designation="asst. prof.", department="ce", qualifications=[Qualification(degree="U.G.", institute="D.D.U", from_year=2020,to_year=2020),
+        Qualification(degree="P.G.", institute="Oxford",  from_year=2020,to_year=2020)], email="rv@gmail.com", website="http://www.google.com",
         biography="Velle bethe he", specializations=[Topic(topic_name="Art")], teaching_interests=[Topic(topic_name="big data")],
         publications=[Publication(title="my publication", description="pubblication details",
                                   publisher="Vougue India", publication_date="2020-04-01", publication_url="https://www.google.com")],
         awards=[Award(title="award", description="best actor", issuer="filmfare",
                       issue_date="2020-04-01", award_url="https://www.google.com")],
         organizations=[Organization(
-            organization_name="google", position="ceo", description="talented company", duration=40)],
-        faculty_type="visiting", image=image)
+            organization_name="google", position="ceo", description="talented company", emp_type='idk',location='dkkj',from_date='2020-08-06',to_date='2020-08-06',is_currently_working=False)],
+        faculty_type="visiting", image=image,accomplishments=[Topic(topic_name="Accomp")])
   f.save()
   faculty = Faculty.objects.filter()
   count = faculty.count()
@@ -44,7 +44,7 @@ def getAllFaculty(request):
   return render(request, 'index.html', {'faculty': faculty})
 
 
-def getFacultyByID(request, faculty_id='ravi'):
+def getFacultyByID(request, faculty_id='16CE001'):
   # faculty_id = request.POST.get()
   faculty = Faculty.objects.filter(faculty_name=faculty_id)
   # print(faculty.count())

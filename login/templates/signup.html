@@ -3,20 +3,22 @@
 
   <body>
 
-   
-
-    
-      <h1>Login</h1>
-
-       
-			<form action="/login/addUser" method="POST" >{% csrf_token %}
-                <input type="text" placeholder=" " name="username" id="username" required>
-            <label for="username" >Username</label>
-            <input type="password" placeholder=" " name="password"  id="password" required>
-            <label for="password" >Password</label>
-            <button type="submit" >Register</button>
+   <h1>OTP Verification</h1>
+    {% if message%}
+      {{message}}
+    {% endif %}
+			<form action="/login/generate" method="POST" >{% csrf_token %}
+            <input type="text"  value={{faculty_id}} name="faculty_id" id="faculty_id" required>
+            <label for="faculty_id" >Username</label>
+            <button type="submit" >Get OTP</button>
       </form>
-        
+      {% if sent %}
+      <form action="/login/verify" method="POST" >{% csrf_token %}
+       <input type="text" name="otp" id="otp" required>
+       <label for="otp" >OTP</label>
+       <button type="submit" >Verify</button>
+      </form>
+      {% endif %}
    
   </body>
 </html>

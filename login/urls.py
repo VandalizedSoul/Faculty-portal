@@ -4,6 +4,8 @@ from .views import *
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    url(r'verify',verify),
+    url(r'generate',generatePassword),
     url(r'auth',auth_view),
     url(r'login',login),
     url(r'signup',signup),

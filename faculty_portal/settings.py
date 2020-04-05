@@ -80,6 +80,7 @@ WSGI_APPLICATION = 'faculty_portal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
+        'ENFORCE_SCHEMA': False,
         'NAME': 'faculty_portal',
     }
 }
