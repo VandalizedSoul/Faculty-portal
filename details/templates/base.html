@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'js/js.js' %}">
+<head>
+<meta charset = "utf-8" >
+<title>MyLogin!</title>
+    <link rel = "icon" href =
+"{% static 'images/logo.jpg'%}"
+        type = "image/x-icon">
+
+</head>
+<body>
+
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+<nav class="navbar fixed-top navbar-dark bg-dark">
+
+  <a class="navbar-brand" style="color:white"> <img src="{% static 'images/logo.jpg'%}" width=40" height="40">&nbsp;Faculty Portal</a>
+  <form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>&nbsp;
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+  </form>
+</nav>
+
+{%block content %}
+{%endblock %}
+
+</body>
+</html>

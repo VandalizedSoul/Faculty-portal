@@ -1,0 +1,210 @@
+{%extends "base.html" %}
+{% block content %}
+
+{% load static %}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+<script src="{% static 'assets/js/bootstrap.js' %}"></script>
+<script src="{% static 'assets/js/jquery.js' %}"></script>
+<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+<!-- You can alternatively load the minified version -->
+<script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+
+<div class="container">
+
+<section>
+
+ <!--PROFILE SECTION-->
+<div class="card mb-3">
+
+    <img src="{% static 'images/logo.jpg'%}" class="card-img-top" height="200">
+    <div class="card-body">
+    <h5 class="card-title">Florenza Garza</h5>
+
+
+<div class="d-flex justify-content-between">
+    <h6 class="card-text">Assisstant Professor, Computer Engineering Dept. </h6>
+   <h6 class="card-text"> <i class="fa fa-phone"></i><span>&nbsp;+91-9876543210</span></h6>
+
+</div>
+        <div class="d-flex justify-content-between">
+    <h6 class="card-text">PhD (Networkings), IIT-Delhi</h6>
+    <h6 class="card-text"><i class="fa fa-envelope-o"></i><span>&nbsp;florenzagArza@gmail.com</span></h6>
+
+</div>
+     <div class="d-flex justify-content-between">
+    <h6 class="card-text">mywebsite@somethin.com</h6>
+    <h6 class="card-text">my address</h6>
+
+</div>
+
+
+    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+  </div>
+</div>
+
+
+<!--ABOUT SECTION -->
+<div class="card mb-3">
+    <div class="card-body">
+    <h5 class="card-title">About</h5>
+        <p class="card text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+</div>
+</div>
+
+<!--EDUCATION SECTION-->
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+<h5 class="card-title">Education</h5>
+<!--            class="pv-profile-section__header-add-action add-position artdeco-button artdeco-button&#45;&#45;tertiary artdeco-button&#45;&#45;circle ember-view"-->
+  <a data-control-name="add_position" href="/polls/addinfo/" id="ember346" >
+      <li-icon type="plus-icon" role="img" aria-label="Add new position">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" width="24" height="24" focusable="false">
+  <path d="M21 13h-8v8h-2v-8H3v-2h8V3h2v8h8v2z"></path>
+</svg>
+      </li-icon>
+</a>
+ </div>
+
+  <ul class="list-group list-group-flush">
+       <div class="d-flex justify-content-between">
+    <li class="list-group-item">
+        <h6 class="card-text">University</h6>
+
+        <p class="card-text">DEgree</p>
+        <p class="card-text">2016-2020</p>
+    </li>
+         <a data-control-name="edit_skills" href="/in/sb58/detail/skills/" id="ember5077" class="pv-profile-section__edit-action artdeco-button artdeco-button--tertiary artdeco-button--circle ember-view">      <li-icon type="pencil-icon" role="img" aria-label="Edit skills"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" width="24" height="24" focusable="false">
+  <path d="M21.71 5L19 2.29a1 1 0 00-.71-.29 1 1 0 00-.7.29L4 15.85 2 22l6.15-2L21.71 6.45a1 1 0 00.29-.74 1 1 0 00-.29-.71zM6.87 18.64l-1.5-1.5L15.92 6.57l1.5 1.5zM18.09 7.41l-1.5-1.5 1.67-1.67 1.5 1.5z"></path>
+</svg></li-icon>
+</a>
+           </div>
+    <li class="list-group-item">
+        <h6 class="card-text">University</h6>
+        <p class="card-text">DEgree</p>
+        <p class="card-text">2016-2020</p>
+    </li>
+       <li class="list-group-item">
+        <h6 class="card-text">University</h6>
+        <p class="card-text">DEgree</p>
+        <p class="card-text">2016-2020</p>
+    </li>
+  </ul>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!--Experience SECTION-->
+<div class="card mb-3">
+    <div class="card-body">
+
+ <h5 class="card-title">Experience</h5>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <h6 class="card-text">Company</h6>
+        <p class="card-text">POsT</p>
+        <p class="card-text">2016-2020</p>
+    </li>
+    <li class="list-group-item">
+        <h6 class="card-text">Company</h6>
+        <p class="card-text">POsT</p>
+        <p class="card-text">2016-2020</p>
+    </li>
+       <li class="list-group-item">
+        <h6 class="card-text">Company</h6>
+        <p class="card-text">POsT</p>
+        <p class="card-text">2016-2020</p>
+    </li>
+  </ul>
+    </div>
+</div>
+
+
+
+<!--Accomplishments SECTION-->
+<div class="card mb-3">
+    <div class="card-body">
+
+ <h5 class="card-title">Accomplishments</h5>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <h6 class="card-text">Awards</h6>
+        <ul class="list-inline">
+            <li class="list-inline-item">Award 1</li>
+            <li class="list-inline-item">Award 2</li>
+            <l1 class="list-inline-item">Award 3</l1>
+        </ul>
+    </li>
+    <li class="list-group-item">
+        <h6 class="card-text">Publications</h6>
+         <ul class="list-inline">
+            <li class="list-inline-item">Award 1</li>
+            <li class="list-inline-item">Award 2</li>
+            <l1 class="list-inline-item">Award 3</l1>
+        </ul>
+    </li>
+       <li class="list-group-item">
+        <h6 class="card-text">Organizations</h6>
+          <ul class="list-inline">
+            <li class="list-inline-item">Award 1</li>
+            <li class="list-inline-item">Award 2</li>
+            <l1 class="list-inline-item">Award 3</l1>
+        </ul>
+    </li>
+  </ul>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+
+ <h5 class="card-title">Teaching Interests</h5>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <h6 class="card-text">Subject 1</h6>
+    </li>
+    <li class="list-group-item">
+        <h6 class="card-text">Subject 2</h6>
+    </li>
+       <li class="list-group-item">
+        <h6 class="card-text">Subject 3</h6>
+    </li>
+  </ul>
+    </div>
+</div>
+
+
+
+<div class="card mb-3">
+    <div class="card-body">
+
+ <h5 class="card-title">Specializations</h5>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <h6 class="card-text">Subject 1</h6>
+    </li>
+    <li class="list-group-item">
+        <h6 class="card-text">Subject 2</h6>
+    </li>
+       <li class="list-group-item">
+        <h6 class="card-text">Subject 3</h6>
+    </li>
+  </ul>
+    </div>
+</div>
+
+
+<a id="back-to-top" href="#" class="btn btn-light btn-lg back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
+</section>
+
+</div>
+{% endblock %}
