@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'generate',generatePassword),
     url(r'auth',auth_view),
     url(r'login',login),
-    url(r'signup',signup),
+    url(r'change',change),
     url(r'addUser',addUser),
     url(r'logout',logout),
     url(r'',login)

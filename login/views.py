@@ -10,7 +10,7 @@ import datetime
 from details.models import *
 import time
 from twilio.rest import Client
-
+from . import api
 
 def login(request):
     c = {}
@@ -59,12 +59,6 @@ def logout(request):
         return render(request, ' login.html')
 
 
-def signup(request):
-    # c = {}
-    # c.update(csrf(request))
-    return render(request, 'signup.html', {'sent': False})
-
-
 def addUser(request):
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
@@ -72,47 +66,38 @@ def addUser(request):
     u.save()
     return HttpResponseRedirect("/login")
 
+def change(request):
+    # c = {}
+    # c.update(csrf(request))
+    return render(request, 'change.html', {'sent': False})
 
 def generatePassword(request):
-    # Download the helper library from https://www.twilio.com/docs/python/install
-    # Your Account Sid and Auth Token from twilio.com/console
-    # DANGER! This is insecure. See http://twil.io/secure
-    # Your Account SID from twilio.com/console
-    account_sid = "AC78c49e25d84d6799db210f8dbcb44e89"
-    # Your Auth Token from twilio.com/console
-    auth_token = "328b11c7dab1d11c18ad2febf4f37380"
-
-    client = Client(account_sid, auth_token)
+    client = Client(api.account_sid,api.auth_token)
     faculty_id = request.POST.get('faculty_id')
-    faculty = Faculty.objects.filter(faculty_name='ravi').first()
+    if(faculty_id == None):
+        return HttpResponseRedirect('/login/change')
+    # faculty_id = '16CE001'
+    faculty = Faculty.objects.filter(faculty_id=faculty_id).first()
     # print('faculty',faculty)
     phone = faculty.phone.__str__()
-    # message = client.messages.create(
-    #     to="+919979779847",
-    #     from_="+919913419556",
-    #     body="Hello from Ravi!")
-    # service = client.verify.services.create(friendly_name='My First Verify Service')
-    verification = client.verify.services(
-        'VA1d90e5a021ec67fb8ad2473df8cd3c57').verifications.create(to=phone, channel='sms')
-    # print(verification.status)
-
-    # print(service.sid)
-    # print(message.sid)
-    return render(request, 'signup.html', {'sent': True,'faculty_id':'ravi'})
+    verification = client.verify.services(api.service_sid).verifications.create(to=phone, channel='sms')
+    print(verification.status)
+    return render(request, 'change.html', {'sent': True,'phone':phone,'faculty_id':faculty_id})
 
 
 def verify(request):
-    account_sid = "AC78c49e25d84d6799db210f8dbcb44e89"
-    # Your Auth Token from twilio.com/console
-    auth_token = "328b11c7dab1d11c18ad2febf4f37380"
     otp = request.POST.get('otp')
-    client = Client(account_sid, auth_token)
+    phone = request.POST.get('phone')
+    faculty_id = request.POST.get('faculty_id')
+    if(phone == None):
+        return HttpResponseRedirect('/login/change')
+    client = Client(api.account_sid,api.auth_token)
     verification_check = client.verify \
-                           .services('VA1d90e5a021ec67fb8ad2473df8cd3c57') \
+                           .services(api.service_sid) \
                            .verification_checks \
-                           .create(to='+919913419556', code=otp)
+                           .create(to=phone, code=otp)
 
     # print(verification_check.status)
     if(verification_check.status=='approved'):
-        return HttpResponse("verified")
-    return render(request, 'signup.html', {'sent': True,'faculty_id':'ravi','message':'otp not verified!! reenter'})
+        return HttpResponse('verified')
+    return render(request, 'change.html', {'sent': True,'phone':phone,'faculty_id':faculty_id,'message':'otp not verified!! reenter'})

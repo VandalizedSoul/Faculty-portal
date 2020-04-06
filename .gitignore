@@ -1,5 +1,7 @@
+media/
+api.py
+
 # Byte-compiled / optimized / DLL files
-/media/*
 __pycache__/
 *.py[cod]
 *$py.class
