@@ -10,29 +10,28 @@
     <div class="container">
     	<div class="row">
 
-		{% for obj in  '0123456789'|make_list %}
-    		<!--Profile Card 5-->
-    		<div class="col-md-3 mt-3">
-    		    <div class="card profile-card-5">
-    		        <div class="card-img-block">
-    		            <img class="card-img-top" src="https://images.unsplash.com/photo-1517832207067-4db24a2ae47c" alt="Card image cap">
-    		        </div>
+	   {% for faculty in faculties %}
+            <!--Profile Card 5-->
+            <div class="col-md-3 mt-3">
+                <div class="card profile-card-5">
+                    <div class="card-img-block">
+                        <img class="card-img-top" src={{ faculty.image }} alt="Card image cap">
+                    </div>
                     <div class="card-body pt-0">
-                    <h6 class="card-title">Florence Garza</h6>
+                        <h6 class="card-title">{{ faculty.faculty_name }}</h6>
 
 
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">{{ faculty.designation }}</li>
+                            <li class="list-group-item"><i class="fa fa-phone"></i><span>{{ faculty.phone }}</span></li>
+                            <li class="list-group-item"><a href="{% url 'facultydetails' faculty.faculty_id %}"
+                                                           class="btn btn-primary">View Profile</a></li>
+                        </ul>
 
-
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Assistant Prof, CE</li>
-    <li class="list-group-item"><i class="fa fa-phone"></i><span>+91-9876543210</span></li>
-	  <li class="list-group-item">  <a href="#" class="btn btn-primary">View Profile</a></li>
-  </ul>
-
-                  </div>
+                    </div>
                 </div>
-    		</div>
-{% endfor %}
+            </div>
+            {% endfor %}
 
 
                 </div>

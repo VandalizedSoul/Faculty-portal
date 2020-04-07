@@ -1,210 +1,378 @@
 {%extends "base.html" %}
 {% block content %}
-
+{% include "_modal.html" %}
+{% block extra_js%}
+<script src="http://malsup.github.com/jquery.form.js"></script>
+{% endblock %}
 {% load static %}
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
-<script src="{% static 'assets/js/bootstrap.js' %}"></script>
-<script src="{% static 'assets/js/jquery.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
 <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
 <!-- You can alternatively load the minified version -->
 <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
 
+    $(".create-book").modalForm({
+        formURL: "{% url 'create_qualification' %}"
+    });
+
+});
+
+
+
+
+</script>
 <div class="container">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
 
-<section>
+            <section>
 
- <!--PROFILE SECTION-->
-<div class="card mb-3">
+                <!--PROFILE SECTION-->
+                <div class="card mb-3">
+                    <img src="{% static 'images/background.jpg'%}" class="card-img-top" height="200">
+                    <div class="pv-top-card--photo center"><img src={{ faculty.image }} class="rounded-circle "
+                                                                width="150" height="150"></div>
+                    <form method="post" action="{% url 'updateImage' faculty.faculty_id %}"
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <button type="submit">Upload Image</button>
+                    </form>
+                    <div class="card-body">
+                        <h5 class="card-title">ID: {{faculty.faculty_id}}</h5>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="card-text">{{faculty.designation}}, {{faculty.department}} </h6>
+                            <h6 class="card-text"><i class="fa fa-phone"></i><span>&nbsp;{{faculty.phone}}</span></h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="card-text">PhD (Networkings), IIT-Delhi</h6>
+                            <h6 class="card-text"><i class="fa fa-envelope-o"></i><span>&nbsp;{{faculty.email}}</span>
+                            </h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="card-text">{{faculty.website}}</h6>
+                            <h6 class="card-text">{{faculty.office}}</h6>
+                        </div>
+                        <!--<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>-->
+                    </div>
+                </div>
 
-    <img src="{% static 'images/logo.jpg'%}" class="card-img-top" height="200">
-    <div class="card-body">
-    <h5 class="card-title">Florenza Garza</h5>
+
+                <!--ABOUT SECTION -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">About</h5>
+                        <div class="d-flex justify-content-between">
+                            <p class="card text">{% if faculty.biography %}{{faculty.biography}} {% else %} Describe
+                                yourself! {% endif %}</p>
 
 
-<div class="d-flex justify-content-between">
-    <h6 class="card-text">Assisstant Professor, Computer Engineering Dept. </h6>
-   <h6 class="card-text"> <i class="fa fa-phone"></i><span>&nbsp;+91-9876543210</span></h6>
-
-</div>
-        <div class="d-flex justify-content-between">
-    <h6 class="card-text">PhD (Networkings), IIT-Delhi</h6>
-    <h6 class="card-text"><i class="fa fa-envelope-o"></i><span>&nbsp;florenzagArza@gmail.com</span></h6>
-
-</div>
-     <div class="d-flex justify-content-between">
-    <h6 class="card-text">mywebsite@somethin.com</h6>
-    <h6 class="card-text">my address</h6>
-
-</div>
+                            <a data-control-name="edit_skills" href="/in/sb58/detail/skills/" id="ember5077"
+                               class="pv-profile-section__edit-action artdeco-button artdeco-button--tertiary artdeco-button--circle ember-view"
+                               style="background-color: #FFFFFF; color: black;>
+                                <li-icon type=" pencil-icon" role="img" aria-label="Edit skills" >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                 data-supported-dps="24x24"
+                                 fill="currentColor" width="24" height="24" focusable="false">
+                                <path d="M21.71 5L19 2.29a1 1 0 00-.71-.29 1 1 0 00-.7.29L4 15.85 2 22l6.15-2L21.71 6.45a1 1 0 00.29-.74 1 1 0 00-.29-.71zM6.87 18.64l-1.5-1.5L15.92 6.57l1.5 1.5zM18.09 7.41l-1.5-1.5 1.67-1.67 1.5 1.5z"></path>
+                            </svg>
+                            </li-icon>
+                            </a>
 
 
-    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-  </div>
-</div>
+                        </div>
+                    </div>
+                </div>
+                <!--Qualification SECTION-->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">Qualification</h5>
+
+                            <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Create book button -->
+                            <button class="create-book btn btn-primary" type="button" name="button"
+                                    style="background-color: #FFFFFF; color: black; border: 0px solid #FFFFFF;"><span
+                                    class="fa fa-plus"></span></button>
+                            <!--            class="pv-profile-section__header-add-action add-position artdeco-button artdeco-button&#45;&#45;tertiary artdeco-button&#45;&#45;circle ember-view"-->
+                            <!-- <button class="create_qualification btn btn-primary submit-btn" type="button" name="button">-->
+                            <!--              <span class="fa fa-plus mr-2"></span></button>-->
+                        </div>
+
+                        {% if faculty.qualifications %}
+
+                        <ul class="list-group list-group-flush">
+                            {% for qualifications in faculty.qualifications %}
+
+                            <div class="d-flex justify-content-between">
+                                <li class="list-group-item">
+                                    <h6 class="card-text">{{qualifications.degree}},{{qualifications.field}}</h6>
+                                    <p class="card-text">{{qualifications.institute}}</p>
+                                    <p class="card-text">{{qualifications.from_year}}-{{qualifications.to_year}}</p>
+                                </li>
+
+                                <a data-control-name="edit_skills" href="/in/sb58/detail/skills/" id="ember5077"
+                                   class="pv-profile-section__edit-action artdeco-button artdeco-button--tertiary artdeco-button--circle ember-view"
+                                   style="background-color: #FFFFFF; color: black;>
+                                <li-icon type=" pencil-icon" role="img" aria-label="Edit skills" >
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                     data-supported-dps="24x24"
+                                     fill="currentColor" width="24" height="24" focusable="false">
+                                    <path d="M21.71 5L19 2.29a1 1 0 00-.71-.29 1 1 0 00-.7.29L4 15.85 2 22l6.15-2L21.71 6.45a1 1 0 00.29-.74 1 1 0 00-.29-.71zM6.87 18.64l-1.5-1.5L15.92 6.57l1.5 1.5zM18.09 7.41l-1.5-1.5 1.67-1.67 1.5 1.5z"></path>
+                                </svg>
+                                </li-icon>
+                                </a>
+                            </div>
+
+                            {% endfor %}
+                        </ul>
 
 
-<!--ABOUT SECTION -->
-<div class="card mb-3">
-    <div class="card-body">
-    <h5 class="card-title">About</h5>
-        <p class="card text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-</div>
-</div>
+                        {% else %} Add your Educational Details! {% endif %}
 
-<!--EDUCATION SECTION-->
-<div class="card mb-3">
-    <div class="card-body">
-        <div class="d-flex justify-content-between">
-<h5 class="card-title">Education</h5>
-<!--            class="pv-profile-section__header-add-action add-position artdeco-button artdeco-button&#45;&#45;tertiary artdeco-button&#45;&#45;circle ember-view"-->
-  <a data-control-name="add_position" href="/polls/addinfo/" id="ember346" >
-      <li-icon type="plus-icon" role="img" aria-label="Add new position">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" width="24" height="24" focusable="false">
-  <path d="M21 13h-8v8h-2v-8H3v-2h8V3h2v8h8v2z"></path>
-</svg>
-      </li-icon>
-</a>
+                    </div>
+
+
+                </div>
+
+
+                <!--Experience SECTION-->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">Experience</h5>
+                            <button class="create-book btn btn-primary" type="button" name="button"
+                                    style="background-color: #FFFFFF; color: black; border: 0px solid #FFFFFF;"><span
+                                    class="fa fa-plus"></span></button>
+                        </div>
+
+                        {% if faculty.organizations %}
+                        <ul class="list-group list-group-flush">
+                            {% for exp in faculty.organizations %}
+                            <div class="d-flex justify-content-between">
+                                <li class="list-group-item">
+                                    <h6 class="card-text">{{exp.organization_name}},{{exp.location}}</h6>
+                                    <p class="card-text">{{exp.position}}</p>
+                                    <p class="card-text">{{exp.from_date}}-{{exp.to_date}}</p>
+                                    <p class=card-text">{{exp.description}}</p>
+                                </li>
+
+                                <a data-control-name="edit_skills" href="/in/sb58/detail/skills/" id="ember5077"
+                                   class="pv-profile-section__edit-action artdeco-button artdeco-button--tertiary artdeco-button--circle ember-view"
+                                <style
+                                ="background-color: #FFFFFF; color: black;>>
+                                <li-icon type="pencil-icon" role="img" aria-label="Edit skills">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                        data-supported-dps="24x24"
+                                         fill="currentColor" width="24" height="24" focusable="false" >
+                                        <path d="M21.71 5L19 2.29a1 1 0 00-.71-.29 1 1 0 00-.7.29L4 15.85 2 22l6.15-2L21.71 6.45a1 1 0 00.29-.74 1 1 0 00-.29-.71zM6.87 18.64l-1.5-1.5L15.92 6.57l1.5 1.5zM18.09 7.41l-1.5-1.5 1.67-1.67 1.5 1.5z"></path>
+                                    </svg>
+                                </li-icon>
+                            </a>
  </div>
 
-  <ul class="list-group list-group-flush">
-       <div class="d-flex justify-content-between">
-    <li class="list-group-item">
-        <h6 class="card-text">University</h6>
+                {% endfor %}
+                    </ul>
+                {% else %} Add your Experience! {% endif %}
+            </div>
+        </div>
 
-        <p class="card-text">DEgree</p>
-        <p class="card-text">2016-2020</p>
-    </li>
-         <a data-control-name="edit_skills" href="/in/sb58/detail/skills/" id="ember5077" class="pv-profile-section__edit-action artdeco-button artdeco-button--tertiary artdeco-button--circle ember-view">      <li-icon type="pencil-icon" role="img" aria-label="Edit skills"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" width="24" height="24" focusable="false">
-  <path d="M21.71 5L19 2.29a1 1 0 00-.71-.29 1 1 0 00-.7.29L4 15.85 2 22l6.15-2L21.71 6.45a1 1 0 00.29-.74 1 1 0 00-.29-.71zM6.87 18.64l-1.5-1.5L15.92 6.57l1.5 1.5zM18.09 7.41l-1.5-1.5 1.67-1.67 1.5 1.5z"></path>
-</svg></li-icon>
-</a>
-           </div>
-    <li class="list-group-item">
-        <h6 class="card-text">University</h6>
-        <p class="card-text">DEgree</p>
-        <p class="card-text">2016-2020</p>
-    </li>
-       <li class="list-group-item">
-        <h6 class="card-text">University</h6>
-        <p class="card-text">DEgree</p>
-        <p class="card-text">2016-2020</p>
-    </li>
-  </ul>
 
+        <!--Accomplishments SECTION-->
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                <h5 class="card-title">Accomplishments</h5>
+                 <button class="create-book btn btn-primary" type="button" name="button" style="background-color: #FFFFFF; color: black; border: 0px solid #FFFFFF;"><span
+                            class="fa fa-plus"></span></button>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <h6 class="card-text">Awards</h6>
+                         <ul class="list-group list-group-flush">
+                        {% for award in faculty.awards %}
+                              <div class="d-flex justify-content-between">
+                        <li>
+                            <p class="card-text"> {{award.title}}</p>
+                            <p class="card-text"> {{award.issuer}}</p>
+                            <p class="card-text"> {{award.issue_date}}</p>
+                            <p class="card-text"> {{award.description}} </p>
+    </li>
+<a data-control-name="edit_skills" href="/in/sb58/detail/skills/" id="ember5077"
+                               class="pv-profile-section__edit-action artdeco-button artdeco-button--tertiary artdeco-button--circle ember-view" style="background-color: #FFFFFF; color: black;>
+                                <li-icon type="pencil-icon" role="img" aria-label="Edit skills" >
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                        data-supported-dps="24x24"
+                                         fill="currentColor" width="24" height="24" focusable="false" >
+                                        <path d="M21.71 5L19 2.29a1 1 0 00-.71-.29 1 1 0 00-.7.29L4 15.85 2 22l6.15-2L21.71 6.45a1 1 0 00.29-.74 1 1 0 00-.29-.71zM6.87 18.64l-1.5-1.5L15.92 6.57l1.5 1.5zM18.09 7.41l-1.5-1.5 1.67-1.67 1.5 1.5z"></path>
+                                    </svg>
+                                </li-icon>
+                            </a>
+                              </div>
+                        {% endfor %}
+                             </ul>
+                    </li>
+                    <li class="list-group-item">
+                        <h6 class="card-text">Publications</h6>
+
+                         <ul class="list-group list-group-flush">
+                        {% for publication in faculty.publications %}
+                              <div class="d-flex justify-content-between">
+<li>
+                            <p class="card-text"> {{publication.title}} </p>
+                            <p class="card-text"> {{publication.publisher}} </p>
+                            <p class="card-text"> {{publication.description}} </p>
+                            <p class="card-text"> {{publication.publication_date}} </p>
+                            <p class="card-text"> {{publication.publication_url}} </p>
+</li>
+                             <a data-control-name="edit_skills" href="/in/sb58/detail/skills/" id="ember5077"
+                               class="pv-profile-section__edit-action artdeco-button artdeco-button--tertiary artdeco-button--circle ember-view" style="background-color: #FFFFFF; color: black;>
+                                <li-icon type="pencil-icon" role="img" aria-label="Edit skills" >
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                        data-supported-dps="24x24"
+                                         fill="currentColor" width="24" height="24" focusable="false" >
+                                        <path d="M21.71 5L19 2.29a1 1 0 00-.71-.29 1 1 0 00-.7.29L4 15.85 2 22l6.15-2L21.71 6.45a1 1 0 00.29-.74 1 1 0 00-.29-.71zM6.87 18.64l-1.5-1.5L15.92 6.57l1.5 1.5zM18.09 7.41l-1.5-1.5 1.67-1.67 1.5 1.5z"></path>
+                                    </svg>
+                                </li-icon>
+                            </a>
+                              </div>
+                        {% endfor %}
+                             </ul>
+                    </li>
+                    <li class="list-group-item">
+                        <h6 class="card-text">Certifications</h6>
+
+                         <ul class="list-inline">
+                        {% for certification in faculty.certifications %}
+                              <div class="d-flex justify-content-between">
+<li>
+                            <p class="card-text"> {{certification.credential_title}} </p>
+                            <p class="card-text"> {{certification.credential_id}} </p>
+                            <p class="card-text"> {{certification.credential_url}} </p>
+                            <p class="card-text"> {{certification.issue_date}} </p>
+                            <p class="card-text"> {% if certification.expiry_date %} {{certification.expiry_date}} {% else %} No Expiry {% endif %}</p>
+</li>
+
+                               <a data-control-name="edit_skills" href="/in/sb58/detail/skills/" id="ember5077"
+                               class="pv-profile-section__edit-action artdeco-button artdeco-button--tertiary artdeco-button--circle ember-view" style="background-color: #FFFFFF; color: black;>
+                                <li-icon type="pencil-icon" role="img" aria-label="Edit skills" >
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                        data-supported-dps="24x24"
+                                         fill="currentColor" width="24" height="24" focusable="false" >
+                                        <path d="M21.71 5L19 2.29a1 1 0 00-.71-.29 1 1 0 00-.7.29L4 15.85 2 22l6.15-2L21.71 6.45a1 1 0 00.29-.74 1 1 0 00-.29-.71zM6.87 18.64l-1.5-1.5L15.92 6.57l1.5 1.5zM18.09 7.41l-1.5-1.5 1.67-1.67 1.5 1.5z"></path>
+                                    </svg>
+                                </li-icon>
+                            </a>
+                              </div>
+                        {% endfor %}
+                              </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+      <!--teaching intereest section-->
+
+          <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                <h5 class="card-title">Teaching Interests</h5>
+                 <button class="create-book btn btn-primary" type="button" name="button" style="background-color: #FFFFFF; color: black; border: 0px solid #FFFFFF;"><span
+                            class="fa fa-plus"></span></button>
+                </div>
+                {% for teaching_interest in faculty.teaching_interests %}
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <h6 class="card-text">{{teaching_interest}}</h6>
+                    </li>
+                </ul>
+                {% endfor %}
+            </div>
+        </div>
+
+<!--Specializations SECTION-->
+          <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                <h5 class="card-title">Specializations</h5>
+                 <button class="create-book btn btn-primary" type="button" name="button" style="background-color: #FFFFFF; color: black; border: 0px solid #FFFFFF;"><span
+                            class="fa fa-plus"></span></button>
+                </div>
+                {% for specialization in faculty.specializations %}
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <h6 class="card-text">{{specialization}}</h6>
+                    </li>
+                </ul>
+                {% endfor %}
+            </div>
+        </div>
+
+
+        <a id="back-to-top" href="#" class="btn btn-light btn-lg back-to-top" role="button"><i
+                class="fas fa-chevron-up"></i></a>
+    </section>
 
     </div>
 
-
 </div>
-
-
-
-<!--Experience SECTION-->
-<div class="card mb-3">
-    <div class="card-body">
-
- <h5 class="card-title">Experience</h5>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">
-        <h6 class="card-text">Company</h6>
-        <p class="card-text">POsT</p>
-        <p class="card-text">2016-2020</p>
-    </li>
-    <li class="list-group-item">
-        <h6 class="card-text">Company</h6>
-        <p class="card-text">POsT</p>
-        <p class="card-text">2016-2020</p>
-    </li>
-       <li class="list-group-item">
-        <h6 class="card-text">Company</h6>
-        <p class="card-text">POsT</p>
-        <p class="card-text">2016-2020</p>
-    </li>
-  </ul>
-    </div>
-</div>
-
-
-
-<!--Accomplishments SECTION-->
-<div class="card mb-3">
-    <div class="card-body">
-
- <h5 class="card-title">Accomplishments</h5>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">
-        <h6 class="card-text">Awards</h6>
-        <ul class="list-inline">
-            <li class="list-inline-item">Award 1</li>
-            <li class="list-inline-item">Award 2</li>
-            <l1 class="list-inline-item">Award 3</l1>
-        </ul>
-    </li>
-    <li class="list-group-item">
-        <h6 class="card-text">Publications</h6>
-         <ul class="list-inline">
-            <li class="list-inline-item">Award 1</li>
-            <li class="list-inline-item">Award 2</li>
-            <l1 class="list-inline-item">Award 3</l1>
-        </ul>
-    </li>
-       <li class="list-group-item">
-        <h6 class="card-text">Organizations</h6>
-          <ul class="list-inline">
-            <li class="list-inline-item">Award 1</li>
-            <li class="list-inline-item">Award 2</li>
-            <l1 class="list-inline-item">Award 3</l1>
-        </ul>
-    </li>
-  </ul>
-    </div>
-</div>
-
-<div class="card mb-3">
-    <div class="card-body">
-
- <h5 class="card-title">Teaching Interests</h5>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">
-        <h6 class="card-text">Subject 1</h6>
-    </li>
-    <li class="list-group-item">
-        <h6 class="card-text">Subject 2</h6>
-    </li>
-       <li class="list-group-item">
-        <h6 class="card-text">Subject 3</h6>
-    </li>
-  </ul>
-    </div>
-</div>
-
-
-
-<div class="card mb-3">
-    <div class="card-body">
-
- <h5 class="card-title">Specializations</h5>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">
-        <h6 class="card-text">Subject 1</h6>
-    </li>
-    <li class="list-group-item">
-        <h6 class="card-text">Subject 2</h6>
-    </li>
-       <li class="list-group-item">
-        <h6 class="card-text">Subject 3</h6>
-    </li>
-  </ul>
-    </div>
-</div>
-
-
-<a id="back-to-top" href="#" class="btn btn-light btn-lg back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
-</section>
-
 </div>
 {% endblock %}
+
+
+<!--      $(".login-btn").modalForm({formURL: "{% url 'login' %}"});-->
+<!--  $(".signup-btn").modalForm({formURL: "{% url 'signup' %}"});-->
+{% block extrascripts %}
+<script type="text/javascript">
+    $(function () {
+      // Log in & Sign up buttons
+
+
+      // Create book button
+      $(".create-qualification").modalForm({formURL: "{% url 'create_qualification' %}", modalID: "#create-modal"});
+
+      // Update book buttons
+      $(".update-qualification").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      });
+
+      // Read book buttons
+      $(".read-qualification").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      });
+
+      // Delete book buttons
+      $(".delete-qualification").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      })
+
+      // Hide message
+      $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+        $(".alert").slideUp(500);
+      });
+
+    });
+
+
+
+</script>
+{% endblock extrascripts %}

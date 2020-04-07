@@ -27,12 +27,31 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+SITE_ID = 1
 # Application definition
 
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+APPEND_SLASH=False
+
+LANGUAGES = [
+    ('en-us', 'English'),
+    ('de', 'German'),
+]
+
 INSTALLED_APPS = [
+    'login',
+    'django.contrib.sites',
+    'cms',
+    'menus',
+    'treebeard',
     'details.apps.DetailsConfig',
     'bootstrap_modal_forms',
+    'widget_tweaks',
+    'djangocms_admin_style',
+'filer',
+'easy_thumbnails',
+'mptt',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,10 +76,13 @@ ROOT_URLCONF = 'faculty_portal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'examples/templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'cms.context_processors.cms_settings',
+                'django.template.context_processors.i18n',
+                'sekizai.context_processors.sekizai',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -69,6 +91,12 @@ TEMPLATES = [
         },
     },
 ]
+
+
+CMS_TEMPLATES = [
+    ('home.html', 'Home page template'),
+]
+
 
 WSGI_APPLICATION = 'faculty_portal.wsgi.application'
 
@@ -148,4 +176,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+STATICFILES_FINDERS = [
+    # searches in STATICFILES_DIRS
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    # searches in STATIC subfolder of each app
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+
 STATIC_URL = '/static/'
+
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
