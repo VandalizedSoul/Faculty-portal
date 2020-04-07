@@ -14,7 +14,7 @@
         {% endfor %}
       {% endif %}
    </h5>
-    
+    ** If you are visiting first time then proceed for password generation
       <h1>Login</h1>
       <form action="/login/auth" method="POST" >{% csrf_token %}
                 <input type="text" placeholder=" " name="username" id="username" required>
@@ -25,7 +25,7 @@
       </form>
         <br/>
       <form action="/login/change" method="POST" >{% csrf_token %}
-          <button type="submit" x>Generate new password</button>
+          <button type="submit" x>Generate/Change password</button>
         </form>
   </body>
 </html>

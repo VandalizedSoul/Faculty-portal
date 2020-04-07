@@ -1,10 +1,15 @@
 <html>
 
 <body>
-	<form method="post" action="/faculty/addFaculty" enctype="multipart/form-data">{% csrf_token %}
+
+	{{faculty.image.url}}
+
+	<img src='/static/profile/16CE001.jpg'>
+	<form method="post" action="/faculty/updateImage" enctype="multipart/form-data">{% csrf_token %}
 		name:<input type="text" id="name"name="name"/><br/>
 		designation:<input type="designation" id="designation"name="designation"/><br/>
-		<input type="file" name="profile" />
+		<input type="hidden" name="faculty_id" value="16CE001">
+		<input type="file" accept="image/*" name="profile" />
 		<button type="submit" class="btn btn-2">Register</button>
 	</form>
   

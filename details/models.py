@@ -77,7 +77,7 @@ class Faculty(models.Model):
     faculty_name = models.CharField(max_length=30, null=True)
     designation = models.CharField(max_length=30, null=True)
     department = models.CharField(max_length=2, choices=DEPT_LIST, null=False, default='CE')
-    image = models.FileField(upload_to='', blank=True)
+    image = models.ImageField(upload_to='', blank=True)
     qualifications = models.ArrayField(model_container=Qualification, null=True)
     phone = PhoneNumberField(blank=False, null=False,)
     email = models.EmailField(blank=True, null=True)

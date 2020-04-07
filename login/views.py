@@ -12,6 +12,7 @@ import time
 from twilio.rest import Client
 from . import api
 
+
 def login(request):
     c = {}
     c.update(csrf(request))
@@ -27,7 +28,7 @@ def auth_view(request):
 
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
-        user = auth.authenticate(username=username, password=password)
+        user = auth.authenticate(username=username.upper(), password=password)
         if user is not None:
             auth.login(request, user)
             print("logged in")
@@ -59,45 +60,59 @@ def logout(request):
         return render(request, ' login.html')
 
 
-def addUser(request):
-    username = request.POST.get('username', '')
+def createPassword(request, faculty_id='16CE001'):
+    print("create")
+    return render(request, 'password.html', {'faculty_id': faculty_id})
+
+
+def changeUser(request):
+    username = request.POST.get('faculty_id', '')
     password = request.POST.get('password', '')
-    u = User.objects.create_user(username=username, password=password)
-    u.save()
+    user = User.objects.get(username=username)
+    if(user != None):
+        user.set_password(password)
+        user.save()
+    else:
+        u = User.objects.create_user(username=username.upper(), password=password)
+        u.save()
     return HttpResponseRedirect("/login")
+
 
 def change(request):
     # c = {}
     # c.update(csrf(request))
     return render(request, 'change.html', {'sent': False})
 
+
 def generatePassword(request):
-    client = Client(api.account_sid,api.auth_token)
-    faculty_id = request.POST.get('faculty_id')
+    client = Client(api.account_sid, api.auth_token)
+    faculty_id = request.POST.get('faculty_id').upper()
     if(faculty_id == None):
         return HttpResponseRedirect('/login/change')
     # faculty_id = '16CE001'
     faculty = Faculty.objects.filter(faculty_id=faculty_id).first()
     # print('faculty',faculty)
     phone = faculty.phone.__str__()
-    verification = client.verify.services(api.service_sid).verifications.create(to=phone, channel='sms')
+    verification = client.verify.services(
+        api.service_sid).verifications.create(to=phone, channel='sms')
     print(verification.status)
-    return render(request, 'change.html', {'sent': True,'phone':phone,'faculty_id':faculty_id})
+    return render(request, 'change.html', {'sent': True, 'phone': phone, 'faculty_id': faculty_id})
 
 
 def verify(request):
     otp = request.POST.get('otp')
     phone = request.POST.get('phone')
-    faculty_id = request.POST.get('faculty_id')
+    faculty_id = request.POST.get('faculty_id').upper()
     if(phone == None):
         return HttpResponseRedirect('/login/change')
-    client = Client(api.account_sid,api.auth_token)
+    client = Client(api.account_sid, api.auth_token)
     verification_check = client.verify \
-                           .services(api.service_sid) \
-                           .verification_checks \
-                           .create(to=phone, code=otp)
+        .services(api.service_sid) \
+        .verification_checks \
+        .create(to=phone, code=otp)
 
     # print(verification_check.status)
-    if(verification_check.status=='approved'):
-        return HttpResponse('verified')
-    return render(request, 'change.html', {'sent': True,'phone':phone,'faculty_id':faculty_id,'message':'otp not verified!! reenter'})
+    if(verification_check.status == 'approved'):
+        url = '/login/createPassword/'+faculty_id
+        return HttpResponseRedirect(url)
+    return render(request, 'change.html', {'sent': True, 'phone': phone, 'faculty_id': faculty_id, 'message': 'otp not verified!! reenter'})

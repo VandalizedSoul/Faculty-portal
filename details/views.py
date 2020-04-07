@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
 from phonenumber_field.phonenumber import PhoneNumber
+from django.core.files.storage import FileSystemStorage
+
 # Create your views here.
 
 
@@ -39,7 +41,7 @@ def addFaculty(request):
 
 def getAllFaculty(request):
     # faculty = Faculty.objects.filter(faculty_name="ravi",publications={'title':'my publication'})
-    faculty = Faculty.objects.filter()
+    faculty = Faculty.objects.filter(faculty_id='16CE001').first()
     # print(faculty.count())
     return render(request, 'index.html', {'faculty': faculty})
 
@@ -47,22 +49,34 @@ def getAllFaculty(request):
 def getFacultyByID(request, faculty_id='16CE001'):
     # faculty_id = request.POST.get()
     faculty = Faculty.objects.filter(faculty_name=faculty_id).first()
+    url = '/static/profile/'+faculty.faculty_id
+    fs = FileSystemStorage()
+    if not(fs.exists(url)):
+        url = '/static/profile/NoImage.png'
     # print(faculty.count())
-    return render(request, 'index.html', {'faculty': faculty})
+    return render(request, 'index.html', {'faculty': faculty,'url':url})
 
 # def updateFaculty(request):
 #   faculty_id = request.POST.get('id','')
 #   faculty = request.POST.get('faculty')
 #   faculty = Faculty.objects.filter(faculty_name=faculty_id).update(faculty_name='ravi')
-
+# def handle_uploaded_file(faculty_id,f):  
+#     with open('details/static/profile/'+faculty_id+'.jpg', 'wb+') as destination:  
+#         for chunk in f.chunks():  
+#             destination.write(chunk)  
 
 def updateImage(request):
-    faculty_id = request.POST.get('id', '')
-    image = request.FILES.get('image')
+    faculty_id = request.POST.get('faculty_id', '')
+    image = request.FILES['profile']
+    print('image',image)
     faculty = Faculty.objects.filter(
-        faculty_name=faculty_id).update(image=image)
-    return HttpResponse('saved')
-
+        faculty_id=faculty_id).first()
+    faculty.image = image
+    faculty.save()
+    # handle_uploaded_file(faculty_id,image)  
+    # faculty = Faculty.objects.filter(
+    #     faculty_name=faculty_id).update(image=image)
+    return HttpResponse('image saved')
 
 def deleteImage(request):
     faculty_id = request.POST.get('id', '')
