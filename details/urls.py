@@ -47,6 +47,7 @@ urlpatterns = [
     path('delete_publication/<int:pk>', views.PublicationDeleteView.as_view(), name='delete_publication'),
 
     path('success', success, name='success'),
-    path('changeImage', changeImage)
+    path('changeImage', changeImage),
+    path('deleteImage', deleteImage),
     # path('signup/', views.SignUpView.as_view(), name='signup'),
 ]

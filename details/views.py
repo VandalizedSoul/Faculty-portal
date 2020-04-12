@@ -76,9 +76,9 @@ def changeImage(request):
 
 @login_required
 def deleteImage(request):
-    faculty_id = request.POST.get('id', '')
-    image = None
-    faculty = Faculty.objects.filter(faculty_id=faculty_id)
+    faculty_id = request.POST.get('faculty_id', '')
+    image = "NoImage.png"
+    faculty = Faculty.objects.get(faculty_id=faculty_id)
     faculty.image = image
     faculty.save()
     return HttpResponseRedirect('/polls/facultydetails/'+faculty_id+'/')

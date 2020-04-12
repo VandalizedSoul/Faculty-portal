@@ -40,7 +40,10 @@
                         <input type="file" accept="image/*" name="profile"/>
                         <button type="submit" class="btn btn-2">Register</button>
                     </form>
-
+                    <form method="post" action="/polls/deleteImage" enctype="multipart/form-data">{% csrf_token %}
+                        <input type="hidden" name="faculty_id" value="{{faculty.faculty_id}}" >
+                        <button type="submit" class="btn btn-2">Delete</button>
+                    </form>
                     <div class="card-body">
                         <h5 class="card-title">ID: {{faculty.faculty_id}}</h5>
                         <div class="d-flex justify-content-between">
