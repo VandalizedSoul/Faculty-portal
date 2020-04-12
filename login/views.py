@@ -24,7 +24,7 @@ def auth_view(request):
         if request.user.is_authenticated:
             '''if request.user.is_superuser:
                 return render(request,' index.html')'''
-            return HttpResponseRedirect('/faculty/show')
+            return HttpResponseRedirect('/polls/home/')
 
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
@@ -32,8 +32,9 @@ def auth_view(request):
         if user is not None:
             auth.login(request, user)
             print("logged in")
-            request.session['faculty_id'] = username
-            return HttpResponseRedirect('/faculty/show')
+            request.session['faculty_id'] = username.upper()
+            print('inside login view', request.session.get('faculty_id', None))
+            return HttpResponseRedirect('/polls/home/')
 
         else:
             print("incorrect cred")
@@ -68,14 +69,19 @@ def createPassword(request, faculty_id='16CE001'):
 def changeUser(request):
     username = request.POST.get('faculty_id', '')
     password = request.POST.get('password', '')
-    user = User.objects.get(username=username)
-    if(user != None):
+    print(User.objects.all())
+    # user = User.objects.get(username=username)
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        user = None
+    if user:
         user.set_password(password)
         user.save()
     else:
         u = User.objects.create_user(username=username.upper(), password=password)
         u.save()
-    return HttpResponseRedirect("/login")
+    return HttpResponseRedirect("/login/")
 
 
 def change(request):

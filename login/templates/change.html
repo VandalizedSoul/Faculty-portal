@@ -1,7 +1,17 @@
-<html>
+{%extends "base.html" %}
+{% block content %}
+{% load static %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<body>
 
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+<section style="padding-top:50px">
   <h1>Manage Password</h1>
   {% if message%}
   {{message}}
@@ -23,7 +33,6 @@
     <button type="submit">Verify</button>
   </form>
   {% endif %}
+</section>
 
-</body>
-
-</html>
+{% endblock %}
