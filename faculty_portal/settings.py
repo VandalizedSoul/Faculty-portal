@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+import mimetypes
+mimetypes.add_type("text/css", ".css", True)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -32,7 +33,7 @@ SITE_ID = 1
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-APPEND_SLASH=False
+
 
 LANGUAGES = [
     ('en-us', 'English'),
@@ -41,14 +42,14 @@ LANGUAGES = [
 
 INSTALLED_APPS = [
     'login',
+'todolist',
     'django.contrib.sites',
-    'cms',
+
     'menus',
     'treebeard',
     'details.apps.DetailsConfig',
     'bootstrap_modal_forms',
     'widget_tweaks',
-    'djangocms_admin_style',
 'filer',
 'easy_thumbnails',
 'mptt',
@@ -76,11 +77,10 @@ ROOT_URLCONF = 'faculty_portal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'examples/templates'),],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'cms.context_processors.cms_settings',
                 'django.template.context_processors.i18n',
                 'sekizai.context_processors.sekizai',
                 'django.template.context_processors.debug',
@@ -93,9 +93,7 @@ TEMPLATES = [
 ]
 
 
-CMS_TEMPLATES = [
-    ('home.html', 'Home page template'),
-]
+
 
 
 WSGI_APPLICATION = 'faculty_portal.wsgi.application'
@@ -116,7 +114,7 @@ WSGI_APPLICATION = 'faculty_portal.wsgi.application'
 DATABASES = {
         'default': {
             'ENGINE': 'djongo',
-            'ENFORCE_SCHEMA': True,
+            'ENFORCE_SCHEMA': False,
             'LOGGING': {
                 'version': 1,
                 'loggers': {
@@ -190,3 +188,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+
+# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
