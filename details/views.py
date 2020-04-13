@@ -49,11 +49,11 @@ def facultydetails(request, faculty_id):
     print(qualification, 'q')
     context = {'faculty': faculty, 'qualifications': qualification, 'publications': publication, 'awards': award, 'organizations': organization, 'certifications': certification, 'latest_qualification': latest_qualification}
     context.update(csrf(request))
-    return render_to_response('facultydetails.html', context)
+    return render(request,'facultydetails.html', context)
 
 
 def invalidlogin(request):
-    return render_to_response('invalidlogin.html')
+    return render(request,'invalidlogin.html')
 
 def home(request):
     # auth.logout(request)
