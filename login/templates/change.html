@@ -1,0 +1,38 @@
+{%extends "base.html" %}
+{% block content %}
+{% load static %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+<section style="padding-top:50px">
+  <h1>Manage Password</h1>
+  {% if message%}
+  {{message}}
+  {% endif %}
+  <form action="/login/generate" method="POST">{% csrf_token %}
+    <label for="faculty_id">Username</label>
+    <input type="text" value="{{faculty_id}}" name="faculty_id" id="faculty_id" required>
+    <input type="hidden" value="{{phone}}" name="phone">
+    <button type="submit">Get OTP</button>
+  </form><br />
+  {% if sent %}
+
+  OTP sent to: {{phone}} :
+  <form action="/login/verify" method="POST">{% csrf_token %}
+    <label for="otp">OTP</label>
+    <input type="text" name="otp" id="otp" required>
+    <input type="hidden" value="{{phone}}" name="phone">
+    <input type="hidden" value="{{faculty_id}}" name="faculty_id">
+    <button type="submit">Verify</button>
+  </form>
+  {% endif %}
+</section>
+
+{% endblock %}
