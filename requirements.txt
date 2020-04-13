@@ -7,3 +7,4 @@ selenium==3.14.0
 pytz==2018.5
 django-phonenumber-field==4.0.0
 phonenumbers
+gunicorn
