@@ -20,6 +20,8 @@ from django.template.context_processors import csrf
 from django.urls import reverse_lazy
 from django.views import generic
 
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 from bootstrap_modal_forms.generic import (BSModalLoginView,
                                            BSModalCreateView,
                                            BSModalUpdateView,
@@ -30,7 +32,7 @@ from .forms import QualificationForm, CustomUserCreationForm, CustomAuthenticati
     CertificationForm, OrganizationForm, TeachingInterestForm, SpecializationForm, AboutForm, ProfileForm
 from .models import Faculty
 
-from .models import Faculty
+from .models import *
 
 
 
@@ -44,6 +46,35 @@ from django.shortcuts import redirect
 from .forms import *
 
 
+
+@login_required
+def changeImage(request):
+    faculty_id = request.POST.get('faculty_id', '')
+    image = request.FILES['profile']
+    print('image post',image)
+    faculty = Faculty.objects.filter(faculty_id=faculty_id).first()
+    faculty.image = image
+    faculty.save()
+    print("image after save",faculty.image)
+    # handle_uploaded_file(faculty_id,image)
+    # faculty = Faculty.objects.filter(
+    #     faculty_name=faculty_id).update(image=image)
+    return HttpResponseRedirect('/polls/facultydetails/'+faculty_id+'/')
+
+@login_required
+def deleteImage(request):
+    faculty_id = request.POST.get('faculty_id', '')
+    image = "NoImage.png"
+    faculty = Faculty.objects.get(faculty_id=faculty_id)
+    faculty.image = image
+    faculty.save()
+    return HttpResponseRedirect('/polls/facultydetails/'+faculty_id+'/')
+
+
+def success(request):
+    return HttpResponse('successfully uploaded')
+
+
 def updateimage(request,faculty_id):
     faculty_id = request.POST.get('id', '')
     faculty = Faculty.objects.get(faculty_id=faculty_id)
@@ -55,12 +86,7 @@ def updateimage(request,faculty_id):
     return render(request,'facultydetails.html',context)
 
 
-def deleteImage(request):
-    faculty_id = request.POST.get('id', '')
-    image = 'Default Image URL'
-    faculty = Faculty.objects.filter(
-        faculty_name=faculty_id).update(image=image)
-    return HttpResponse('saved')
+
 
 
 def profile_image_view(request):
@@ -74,9 +100,6 @@ def profile_image_view(request):
         form = ProfileForm()
     return render(request, 'profile_image_form.html', {'form': form})
 
-
-def success(request):
-    return HttpResponse('successfully uploaded')
 
 
 class QualificationCreateView(BSModalCreateView):
@@ -425,16 +448,19 @@ def facultydetails(request, faculty_id):
         latest_qualification = Qualification.objects.all().filter(faculty=faculty).latest('to_year')
     else:
         latest_qualification=None
-    print('latest Q',latest_qualification)
+    print('latest Q', latest_qualification)
     print(qualification, 'q')
     login_faculty_id = request.session.get('faculty_id', None)
+    print('login_fid', login_faculty_id)
     #
     # context = {'faculty': faculty,'login_faculty':login_faculty_id}
+
     if(login_faculty_id==faculty.faculty_id):
         print("same login")
     # login_faculty_id=True
     print("ID's",login_faculty_id,faculty.faculty_id)
-    context = {'faculty': faculty, 'qualifications': qualification, 'publications': publication, 'awards': award, 'organizations': organization, 'certifications': certification, 'latest_qualification': latest_qualification,'login_faculty_id':login_faculty_id}
+    context = {'faculty': faculty, 'qualifications': qualification, 'publications': publication, 'awards': award, 'organizations': organization, 'certifications': certification, 'latest_qualification': latest_qualification, 'login_faculty_id': login_faculty_id}
+    context.update(csrf(request))
     return render_to_response('facultydetails.html', context)
 
 
@@ -442,9 +468,28 @@ def invalidlogin(request):
     return render_to_response('invalidlogin.html')
 
 
+#
+# def home(request):
+#     # auth.logout(request)
+#     faculties = Faculty.objects.filter()
+#     login_faculty_id = request.session.get('faculty_id', None)
+#     return render_to_response('home.html', {"faculties": faculties,"login_faculty_id":login_faculty_id})
+
 
 def home(request):
     # auth.logout(request)
-    faculties = Faculty.objects.filter()
+    if request.method == "GET":
+        query = request.GET.get('Search')
+        print("search", query)
+        if query:
+            faculties = Faculty.objects.filter(Q(faculty_name__icontains=query) | Q(department__icontains=query) | Q(faculty_id__icontains=query))
+            # for faculty in faculties:
+            #     qualification = Qualification.objects.filter(faculty=faculty,degree=query)
+            #     if qualification:
+            #         pass
+
+            # print(faculties)
+        else:
+            faculties = Faculty.objects.filter()
     login_faculty_id = request.session.get('faculty_id', None)
-    return render_to_response('home.html', {"faculties": faculties,login_faculty_id:login_faculty_id})
+    return render_to_response('home.html', {"faculties": faculties, login_faculty_id:login_faculty_id})

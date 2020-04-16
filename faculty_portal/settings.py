@@ -31,8 +31,11 @@ ALLOWED_HOSTS = []
 SITE_ID = 1
 # Application definition
 
+
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+LOGIN_URL = '/login'
+APPEND_SLASH=True
 
 
 LANGUAGES = [
@@ -50,7 +53,7 @@ INSTALLED_APPS = [
     'details.apps.DetailsConfig',
     'bootstrap_modal_forms',
     'widget_tweaks',
-'filer',
+# 'filer',
 'easy_thumbnails',
 'mptt',
     'django.contrib.admin',
@@ -82,7 +85,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.i18n',
-                'sekizai.context_processors.sekizai',
+                # 'sekizai.context_processors.sekizai',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -187,6 +190,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "media"),
 ]
 
 

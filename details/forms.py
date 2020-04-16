@@ -1,5 +1,7 @@
+# Normal Imports
+
 from .models import Faculty
-from .models import Organization
+from .models import Organization, Certification
 from .models import Qualification
 from .models import Award,Publication
 from django import forms
@@ -11,6 +13,8 @@ from bootstrap_modal_forms.forms import BSModalForm
 from django import forms
 from .models import *
 
+
+# Normal Code begins
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -52,10 +56,10 @@ class OrganizationForm(BSModalForm):
     class Meta:
         model = Organization
         fields = '__all__'
-        widgets = {
-            'from_date': DateInput(),
-            'to_date': DateInput(),
-        }
+        # widgets = {
+        #     'from_date': DateInput(),
+        #     'to_date': DateInput(),
+        # }
 
     def __init__(self, faculty_id=None, pk=None, *args, **kwargs):
         super(OrganizationForm, self).__init__(*args, **kwargs)

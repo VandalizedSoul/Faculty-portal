@@ -59,9 +59,13 @@ urlpatterns = [
     path('delete_award/<int:pk>', views.AwardDeleteView.as_view(), name='delete_award'),
     path('delete_publication/<int:pk>', views.PublicationDeleteView.as_view(), name='delete_publication'),
 
-    path('image_upload', profile_image_view, name='image_upload'),
     path('success', success, name='success'),
-    url(r'^updateimage/(?P<faculty_id>[a-zA-Z0-9]+)/$', updateimage, name="updateimage"),
+    path('changeImage', changeImage),
+    path('deleteImage', deleteImage)
+
+    # path('image_upload', profile_image_view, name='image_upload'),
+    # path('success', success, name='success'),
+    # url(r'^updateimage/(?P<faculty_id>[a-zA-Z0-9]+)/$', updateimage, name="updateimage"),
     # path('signup/', views.SignUpView.as_view(), name='signup'),
 ]
 
