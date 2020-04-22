@@ -1,7 +1,11 @@
+
 from djongo import models
 from django import forms
 from phonenumber_field.modelfields import PhoneNumberField
+from month.models import MonthField
 import datetime
+# from django_month_year_widget.widgets import MonthYearWidget
+
 
 YEAR_CHOICES = []
 for r in range(1980, (datetime.datetime.now().year+1)):
@@ -93,10 +97,10 @@ class Organization(models.Model):
     organization_name = models.CharField(max_length=30)
     position = models.CharField(max_length=30)
     description = models.TextField()
-    emp_type = models.CharField(max_length=30)
+    employment_type = models.CharField(max_length=30)
     location = models.CharField(max_length=30)
-    from_date = models.DateField()
-    to_date = models.DateField()
+    from_year = models.IntegerField('from year', choices=YEAR_CHOICES, default=datetime.datetime.now().year)
+    to_year = models.IntegerField('to year', choices=YEAR_CHOICES, default=datetime.datetime.now().year)
     is_currently_working = models.BooleanField()
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
 

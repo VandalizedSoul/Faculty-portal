@@ -6,7 +6,7 @@ import datetime
 
 
 class FacultyAdmin(admin.ModelAdmin):
-    fields = ('faculty_name', 'phone', 'department',)
+    fields = ('faculty_name', 'phone', 'department', 'email', 'designation')
     list_display = ('faculty_id', 'faculty_name', 'phone', 'department',)
     list_filter = ('department', )
 

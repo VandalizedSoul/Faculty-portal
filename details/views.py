@@ -31,6 +31,16 @@ from .forms import QualificationForm, CustomUserCreationForm, CustomAuthenticati
     CertificationForm, OrganizationForm, TeachingInterestForm, SpecializationForm, AboutForm, ProfileForm
 from .models import Faculty
 
+from .models import *
+
+
+
+#
+# class FacultyDetails(generic.ListView):
+#     model = Faculty
+#     context_object_name = 'faculty'
+#     template_name = 'facultydetails.html'
+
 from django.shortcuts import redirect
 from .forms import *
 

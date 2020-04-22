@@ -2,6 +2,19 @@
 <html>
 {% load static %}
 
+
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+<!-- You can alternatively load the minified version -->
+<script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/newstyle.css' %}"/>
+
+
 <link rel="stylesheet" href="{% static 'js/js.js' %}">
 <head>
 <meta charset = "utf-8" >
@@ -27,6 +40,18 @@
           height: 56px;
         }
       </style>
+
+
+    <style>
+
+        .double-nav .breadcrumb-dn {
+    color: #fff;
+}
+.side-nav.wide.slim .sn-ad-avatar-wrapper a span {
+  display: none;
+}
+
+    </style>
     {% endblock stylesheets %}
 <title>Faculty Portal</title>
     <link rel = "icon" href =

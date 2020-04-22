@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+import mimetypes
+mimetypes.add_type("text/css", ".css", True)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -40,23 +41,19 @@ LANGUAGES = [
     ('de', 'German'),
 ]
 
-CMS_TEMPLATES = [
-    ('home.html', 'Home page template'),
-]
-
 INSTALLED_APPS = [
     'login',
+    'todolist',
     'django.contrib.sites',
-    # 'cms',
-    # 'menus',
-    # 'treebeard',
+
+    'menus',
+    'treebeard',
     'details.apps.DetailsConfig',
     'bootstrap_modal_forms',
     'widget_tweaks',
-    # 'djangocms_admin_style',
     # 'filer',
-    # 'easy_thumbnails',
-    # 'mptt',
+    'easy_thumbnails',
+    'mptt',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -101,6 +98,10 @@ TEMPLATES = [
 
 
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> master
 WSGI_APPLICATION = 'faculty_portal.wsgi.application'
 
 
@@ -119,7 +120,11 @@ WSGI_APPLICATION = 'faculty_portal.wsgi.application'
 DATABASES = {
         'default': {
             'ENGINE': 'djongo',
+<<<<<<< HEAD
+            'ENFORCE_SCHEMA': False,
+=======
             'ENFORCE_SCHEMA': True,
+>>>>>>> master
             'LOGGING': {
                 'version': 1,
                 'loggers': {
@@ -193,4 +198,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     os.path.join(BASE_DIR, "media"),
+<<<<<<< HEAD
 ]
+
+
+# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+=======
+]
+>>>>>>> master

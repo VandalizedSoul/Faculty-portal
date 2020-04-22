@@ -17,11 +17,14 @@ from django.contrib import admin
 from django.template.context_processors import static
 from django.urls import path, include
 from django.conf.urls import url, include
+from todolist.views import index
+
 
 
 urlpatterns = [
     path('polls/', include('details.urls')),
-    path('login/', include('login.urls')),
+    path('login/',include('login.urls')),
     path('admin/', admin.site.urls),
+    url(r'^$', index, name="TodoList"),
     path('accounts/', include('django.contrib.auth.urls')),
 ]

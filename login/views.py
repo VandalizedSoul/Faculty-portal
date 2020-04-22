@@ -23,13 +23,13 @@ def login(request):
 
 def auth_view(request):
     try:
+        username = request.POST.get('username', '').upper()
+        password = request.POST.get('password', '')
         if request.user.is_authenticated:
             '''if request.user.is_superuser:
                 return render(request,' index.html')'''
-            return HttpResponseRedirect('/polls/home/')
+            return HttpResponseRedirect('/polls/facultydetails/'+username.upper()+'/')
 
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
         user = auth.authenticate(username=username.upper(), password=password)
         if user is not None:
             auth.login(request, user)
@@ -81,8 +81,9 @@ def changeUser(request):
         user.set_password(password)
         user.save()
     else:
-        u = User.objects.create_user(username=username, password=password)
+        u = User.objects.create_user(username=username.upper(), password=password)
         u.save()
+
     return HttpResponseRedirect("/login/")
 
 
