@@ -31,12 +31,10 @@ ALLOWED_HOSTS = []
 SITE_ID = 1
 # Application definition
 
-
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 LOGIN_URL = '/login'
 APPEND_SLASH=True
-
 
 LANGUAGES = [
     ('en-us', 'English'),
@@ -45,7 +43,7 @@ LANGUAGES = [
 
 INSTALLED_APPS = [
     'login',
-'todolist',
+    'todolist',
     'django.contrib.sites',
 
     'menus',
@@ -53,9 +51,9 @@ INSTALLED_APPS = [
     'details.apps.DetailsConfig',
     'bootstrap_modal_forms',
     'widget_tweaks',
-# 'filer',
-'easy_thumbnails',
-'mptt',
+    # 'filer',
+    'easy_thumbnails',
+    'mptt',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -64,6 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -80,10 +79,11 @@ ROOT_URLCONF = 'faculty_portal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'examples/templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                # 'cms.context_processors.cms_settings',
                 'django.template.context_processors.i18n',
                 # 'sekizai.context_processors.sekizai',
                 'django.template.context_processors.debug',
@@ -98,7 +98,10 @@ TEMPLATES = [
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 WSGI_APPLICATION = 'faculty_portal.wsgi.application'
 
 
@@ -117,7 +120,11 @@ WSGI_APPLICATION = 'faculty_portal.wsgi.application'
 DATABASES = {
         'default': {
             'ENGINE': 'djongo',
+<<<<<<< HEAD
             'ENFORCE_SCHEMA': False,
+=======
+            'ENFORCE_SCHEMA': True,
+>>>>>>> master
             'LOGGING': {
                 'version': 1,
                 'loggers': {
@@ -191,7 +198,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     os.path.join(BASE_DIR, "media"),
+<<<<<<< HEAD
 ]
 
 
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+=======
+]
+>>>>>>> master

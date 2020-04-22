@@ -15,7 +15,7 @@ class FacultyAdmin(admin.ModelAdmin):
         id1 = str(Faculty.objects.filter(department=obj.department).count()+1).zfill(3)
         print(id1)
         faculty_id = str(abs(year)%100) + str(obj.department) + id1
-        print(faculty_id)
+        # print(faculty_id)
         obj.faculty_id = faculty_id
         # print(obj.faculty_id)
         super().save_model(request, obj, form, change)

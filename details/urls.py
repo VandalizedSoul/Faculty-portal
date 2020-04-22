@@ -2,14 +2,11 @@ from django.urls import path
 
 from . import views
 from django.conf.urls import url
-from . import views
-from details.views import home, facultydetails, invalidlogin, profile_image_view, success
 from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import *
-
 # login, auth_view,
 
 
@@ -19,7 +16,7 @@ urlpatterns = [
     # url(r'^login/$', login),
     url(r'^addinfo/$', views.addinfo),
     # url(r'^auth/$', auth_view),
-    url(r'^home/$', home),
+    url(r'^home/$', home, name='home'),
     url(r'^facultydetails/(?P<faculty_id>[a-zA-Z0-9]+)/$', views.facultydetails, name='facultydetails'),
     url(r'^invalidlogin/$', invalidlogin),
 
@@ -61,14 +58,6 @@ urlpatterns = [
 
     path('success', success, name='success'),
     path('changeImage', changeImage),
-    path('deleteImage', deleteImage)
-
-    # path('image_upload', profile_image_view, name='image_upload'),
-    # path('success', success, name='success'),
-    # url(r'^updateimage/(?P<faculty_id>[a-zA-Z0-9]+)/$', updateimage, name="updateimage"),
+    path('deleteImage', deleteImage),
     # path('signup/', views.SignUpView.as_view(), name='signup'),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)

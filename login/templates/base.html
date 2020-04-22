@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'js/js.js' %}">
+<head>
+    <meta charset="utf-8">
+
+    {% block stylesheets %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <!-- Font awesome CSS -->
+    <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!-- Custom CSS -->
+    <style media="screen">
+        .invalid {
+          color: #dc3545;
+          font-size: 80%;
+        }
+        body {
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+        }
+        .footer {
+          margin: auto 0 0;
+          height: 56px;
+        }
+
+    </style>
+    {% endblock stylesheets %}
+    <title>Faculty Portal</title>
+
+
+    <link rel="icon" href=
+            "{% static 'images/logo.jpg'%}"
+          type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">
+
+</head>
+<body>
+
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/newstyle.css' %}"/>
+
+
+<nav class="navbar fixed-top navbar-dark bg-dark">
+
+    <a class="navbar-brand" style="color:white"> <img src="{% static 'images/logo.jpg'%}" width=40" height="40">&nbsp;Faculty
+        Portal </a>
+
+
+    <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>&nbsp;
+        {% if not user.is_anonymous %}
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+        {% else %}
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+
+        {% endif %}
+
+    </form>
+</nav>
+
+{%block content %}
+{%endblock %}
+{% block scripts %}
+<script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<!-- You can alternatively load the minified version -->
+<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+{% endblock scripts %}
+{% block extrascripts %}{% endblock extrascripts %}
+</body>
+</html>

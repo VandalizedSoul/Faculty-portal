@@ -16,12 +16,11 @@ from django.shortcuts import render_to_response
 from django.views.generic import TemplateView
 from django.http import HttpResponseRedirect
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from django.template.context_processors import csrf
 from django.urls import reverse_lazy
 from django.views import generic
 
-from django.db.models import Q
-from django.contrib.auth.decorators import login_required
 from bootstrap_modal_forms.generic import (BSModalLoginView,
                                            BSModalCreateView,
                                            BSModalUpdateView,
@@ -46,6 +45,30 @@ from django.shortcuts import redirect
 from .forms import *
 
 
+def facultydetails(request, faculty_id):
+    # faculty_id = request.GET.get('id')
+    print(faculty_id)
+    faculty = Faculty.objects.get(faculty_id=faculty_id)
+    qualification = Qualification.objects.all().filter(faculty=faculty)
+    publication = Publication.objects.all().filter(faculty=faculty)
+    award = Award.objects.all().filter(faculty=faculty)
+    organization = Organization.objects.all().filter(faculty=faculty)
+    certification = Certification.objects.all().filter(faculty=faculty)
+    latest_qualification = Qualification.objects.latest('to_year')
+    print('latest Q',latest_qualification)
+    print(qualification, 'q')
+    context = {'faculty': faculty, 'qualifications': qualification, 'publications': publication, 'awards': award, 'organizations': organization, 'certifications': certification, 'latest_qualification': latest_qualification}
+    context.update(csrf(request))
+    return render(request,'facultydetails.html', context)
+
+
+def invalidlogin(request):
+    return render(request,'invalidlogin.html')
+
+def home(request):
+    # auth.logout(request)
+    faculties = Faculty.objects.filter()
+    return render(request,'home.html', {"faculties": faculties})
 
 @login_required
 def changeImage(request):
@@ -56,7 +79,7 @@ def changeImage(request):
     faculty.image = image
     faculty.save()
     print("image after save",faculty.image)
-    # handle_uploaded_file(faculty_id,image)
+    # handle_uploaded_file(faculty_id,image)  
     # faculty = Faculty.objects.filter(
     #     faculty_name=faculty_id).update(image=image)
     return HttpResponseRedirect('/polls/facultydetails/'+faculty_id+'/')
@@ -74,35 +97,8 @@ def deleteImage(request):
 def success(request):
     return HttpResponse('successfully uploaded')
 
-
-def updateimage(request,faculty_id):
-    faculty_id = request.POST.get('id', '')
-    faculty = Faculty.objects.get(faculty_id=faculty_id)
-    context = {'faculty': faculty}
-    image = request.FILES.get('image')
-    faculty = Faculty.objects.filter(
-        faculty_name=faculty_id).update(image=image)
-
-    return render(request,'facultydetails.html',context)
-
-
-
-
-
-def profile_image_view(request):
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            form.save()
-            return render_to_response('facultydetails.html', context_instance=RequestContext(request))
-    else:
-        form = ProfileForm()
-    return render(request, 'profile_image_form.html', {'form': form})
-
-
-
 class QualificationCreateView(BSModalCreateView):
+    login_required = True   
     form_class = QualificationForm
     template_name = 'create_qualification.html'
     success_message = 'Success: Qualification was created.'
@@ -123,6 +119,7 @@ class QualificationCreateView(BSModalCreateView):
 
 
 class CertificationCreateView(BSModalCreateView):
+    login_required = True
     template_name = 'create_qualification.html'
     form_class = CertificationForm
     success_message = 'Success: Certification was created.'
@@ -142,6 +139,7 @@ class CertificationCreateView(BSModalCreateView):
 
 
 class PublicationCreateView(BSModalCreateView):
+    login_required = True
     template_name = 'create_qualification.html'
     form_class = PublicationForm
     success_message = 'Success: Publication was created.'
@@ -161,6 +159,7 @@ class PublicationCreateView(BSModalCreateView):
 
 
 class AwardCreateView(BSModalCreateView):
+    login_required = True
     template_name = 'create_qualification.html'
     form_class = AwardForm
     success_message = 'Success: Award was created.'
@@ -180,6 +179,7 @@ class AwardCreateView(BSModalCreateView):
 
 
 class OrganizationCreateView(BSModalCreateView):
+    login_required = True
     template_name = 'create_qualification.html'
     form_class = OrganizationForm
     success_message = 'Success: Organization was created.'
@@ -200,6 +200,7 @@ class OrganizationCreateView(BSModalCreateView):
 
 # update views
 class QualificationUpdateView(BSModalUpdateView):
+    login_required = True
     model = Qualification
     template_name = 'update_qualification.html'
     form_class = QualificationForm
@@ -221,6 +222,7 @@ class QualificationUpdateView(BSModalUpdateView):
 
 
 class AboutUpdateView(BSModalUpdateView):
+    login_required = True
     model = Faculty
     template_name = 'update_qualification.html'
     form_class = AboutForm
@@ -231,6 +233,7 @@ class AboutUpdateView(BSModalUpdateView):
 
 
 class CertificationUpdateView(BSModalUpdateView):
+    login_required = True
     model = Certification
     template_name = 'update_qualification.html'
     form_class = CertificationForm
@@ -252,6 +255,7 @@ class CertificationUpdateView(BSModalUpdateView):
 
 
 class AwardUpdateView(BSModalUpdateView):
+    login_required = True
     model = Award
     template_name = 'update_qualification.html'
     form_class = AwardForm
@@ -273,6 +277,7 @@ class AwardUpdateView(BSModalUpdateView):
 
 
 class PublicationUpdateView(BSModalUpdateView):
+    login_required = True
     model = ProfileForm
     template_name = 'update_qualification.html'
     form_class = PublicationForm
@@ -294,6 +299,7 @@ class PublicationUpdateView(BSModalUpdateView):
 
 
 class TeachingInterestUpdateView(BSModalUpdateView):
+    login_required = True
     model = Faculty
     template_name = 'update_qualification.html'
     form_class = TeachingInterestForm
@@ -304,6 +310,7 @@ class TeachingInterestUpdateView(BSModalUpdateView):
 
 
 class SpecializationUpdateView(BSModalUpdateView):
+    login_required = True
     model = Faculty
     template_name = 'update_qualification.html'
     form_class = SpecializationForm
@@ -314,6 +321,7 @@ class SpecializationUpdateView(BSModalUpdateView):
 
 
 class OrganizationUpdateView(BSModalUpdateView):
+    login_required = True
     model = Organization
     template_name = 'update_qualification.html'
     form_class = OrganizationForm
@@ -335,12 +343,14 @@ class OrganizationUpdateView(BSModalUpdateView):
 
 
 class QualificationReadView(BSModalReadView):
+    login_required = True
     model = Faculty
     template_name = 'read_qualification.html'
 
 
 # Delete Views
 class QualificationDeleteView(BSModalDeleteView):
+    login_required = True
     model = Qualification
     template_name = 'delete_qualification.html'
     success_message = 'Success: Qualification was deleted.'
@@ -350,6 +360,7 @@ class QualificationDeleteView(BSModalDeleteView):
 
 
 class OrganizationDeleteView(BSModalDeleteView):
+    login_required = True
     model = Organization
     template_name = 'delete_qualification.html'
     success_message = 'Success: Organization was deleted.'
@@ -359,6 +370,7 @@ class OrganizationDeleteView(BSModalDeleteView):
 
 
 class CertificationDeleteView(BSModalDeleteView):
+    login_required = True
     model = Certification
     template_name = 'delete_qualification.html'
     success_message = 'Success: Certification was deleted.'
@@ -368,6 +380,7 @@ class CertificationDeleteView(BSModalDeleteView):
 
 
 class AwardDeleteView(BSModalDeleteView):
+    login_required = True
     model = Award
     template_name = 'delete_qualification.html'
     success_message = 'Success: Award was deleted.'
@@ -377,6 +390,7 @@ class AwardDeleteView(BSModalDeleteView):
 
 
 class PublicationDeleteView(BSModalDeleteView):
+    login_required = True
     model = Publication
     template_name = 'delete_qualification.html'
     success_message = 'Success: Publication was deleted.'
@@ -388,7 +402,7 @@ class PublicationDeleteView(BSModalDeleteView):
 def getstudentinfo(request):
     c = {}
     c.update(csrf(request))
-    return render_to_response('addstudentinfo.html', c)
+    return render(request,'addstudentinfo.html', c)
 
 
 def addinfo(request):
@@ -398,98 +412,10 @@ def addinfo(request):
     # s.save()
     c = {}
     c.update(csrf(request))
-    return render_to_response('addinfo.html', c)
+    return render(request,'addinfo.html', c)
     # return HttpResponseRedirect('/polls/facultydetails/')
-
-#
-# def addsuccess(request):
-#     return render_to_response('addrecord.html')
 
 
 class StudentListView(generic.ListView):
     model = Faculty
 
-
-def index(request):
-    return HttpResponse("hello World!! Django is unchained!")
-
-
-# class HomePageView(TemplateView):
-#     def get(self, request, **kwargs):
-#         return render(request, 'index.html', context=None)
-
-#
-
-
-#
-# def auth_view(request):
-#     username = request.POST.get('username', '')
-#     password = request.POST.get('password', '')
-#     user = auth.authenticate(username=username,
-#     password=password)
-#     if user is not None:
-#         auth.login(request, user)
-#         return HttpResponseRedirect('/polls/facultydetails/')
-#     else:
-#         return HttpResponseRedirect('/polls/invalidlogin/')
-
-
-def facultydetails(request, faculty_id):
-    # faculty_id = request.GET.get('id')
-    print("faculty: ",faculty_id)
-
-    faculty = Faculty.objects.get(faculty_id=faculty_id)
-    qualification = Qualification.objects.all().filter(faculty=faculty)
-    publication = Publication.objects.all().filter(faculty=faculty)
-    award = Award.objects.all().filter(faculty=faculty)
-    organization = Organization.objects.all().filter(faculty=faculty)
-    certification = Certification.objects.all().filter(faculty=faculty)
-    if qualification:
-        latest_qualification = Qualification.objects.all().filter(faculty=faculty).latest('to_year')
-    else:
-        latest_qualification=None
-    print('latest Q', latest_qualification)
-    print(qualification, 'q')
-    login_faculty_id = request.session.get('faculty_id', None)
-    print('login_fid', login_faculty_id)
-    #
-    # context = {'faculty': faculty,'login_faculty':login_faculty_id}
-
-    if(login_faculty_id==faculty.faculty_id):
-        print("same login")
-    # login_faculty_id=True
-    print("ID's",login_faculty_id,faculty.faculty_id)
-    context = {'faculty': faculty, 'qualifications': qualification, 'publications': publication, 'awards': award, 'organizations': organization, 'certifications': certification, 'latest_qualification': latest_qualification, 'login_faculty_id': login_faculty_id}
-    context.update(csrf(request))
-    return render_to_response('facultydetails.html', context)
-
-
-def invalidlogin(request):
-    return render_to_response('invalidlogin.html')
-
-
-#
-# def home(request):
-#     # auth.logout(request)
-#     faculties = Faculty.objects.filter()
-#     login_faculty_id = request.session.get('faculty_id', None)
-#     return render_to_response('home.html', {"faculties": faculties,"login_faculty_id":login_faculty_id})
-
-
-def home(request):
-    # auth.logout(request)
-    if request.method == "GET":
-        query = request.GET.get('Search')
-        print("search", query)
-        if query:
-            faculties = Faculty.objects.filter(Q(faculty_name__icontains=query) | Q(department__icontains=query) | Q(faculty_id__icontains=query))
-            # for faculty in faculties:
-            #     qualification = Qualification.objects.filter(faculty=faculty,degree=query)
-            #     if qualification:
-            #         pass
-
-            # print(faculties)
-        else:
-            faculties = Faculty.objects.filter()
-    login_faculty_id = request.session.get('faculty_id', None)
-    return render_to_response('home.html', {"faculties": faculties, login_faculty_id:login_faculty_id})

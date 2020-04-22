@@ -56,10 +56,10 @@ class OrganizationForm(BSModalForm):
     class Meta:
         model = Organization
         fields = '__all__'
-        # widgets = {
-        #     'from_date': DateInput(),
-        #     'to_date': DateInput(),
-        # }
+        widgets = {
+            'from_date': DateInput(),
+            'to_date': DateInput(),
+        }
 
     def __init__(self, faculty_id=None, pk=None, *args, **kwargs):
         super(OrganizationForm, self).__init__(*args, **kwargs)
