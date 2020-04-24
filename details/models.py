@@ -1,7 +1,11 @@
+
 from djongo import models
 from django import forms
 from phonenumber_field.modelfields import PhoneNumberField
+# from month.models import MonthField
 import datetime
+# from django_month_year_widget.widgets import MonthYearWidget
+
 
 YEAR_CHOICES = []
 for r in range(1980, (datetime.datetime.now().year+1)):
@@ -31,7 +35,7 @@ class Faculty(models.Model):
     faculty_name = models.CharField(max_length=30, null=True)
     designation = models.CharField(max_length=30, null=True)
     department = models.CharField(max_length=2, choices=DEPT_LIST, null=False, default='CE')
-    image = models.FileField(upload_to='', blank=True)
+    image = models.FileField(upload_to='', blank=True, default='NoImage.png')
     # qualifications = models.ArrayField(model_container=Qualification, null=True)
     phone = PhoneNumberField(blank=False, null=False,)
     email = models.EmailField(blank=True, null=True)
@@ -40,12 +44,7 @@ class Faculty(models.Model):
     biography = models.TextField(null=True)
     specializations = models.ArrayField(model_container=Topic, model_form_class=TopicForm, null=True)
     teaching_interests = models.ArrayField(model_container=Topic, null=True)
-    # certifications = models.ArrayField(model_container=Certification, null=True)
-    # publications = models.ArrayField(model_container=Publication, null=True)
-    # awards = models.ArrayField(model_container=Award, null=True)
-    # organizations = models.ArrayField(model_container=Organization, null=True)
     faculty_type = models.CharField(max_length=10, null=True)
-    # subjects = models.ArrayField(model_container=Topic, null=True)
 
     class Meta:
         verbose_name_plural = "faculties"
@@ -93,10 +92,10 @@ class Organization(models.Model):
     organization_name = models.CharField(max_length=30)
     position = models.CharField(max_length=30)
     description = models.TextField()
-    emp_type = models.CharField(max_length=30)
+    employment_type = models.CharField(max_length=30)
     location = models.CharField(max_length=30)
-    from_date = models.DateField()
-    to_date = models.DateField()
+    from_year = models.IntegerField('from year', choices=YEAR_CHOICES, default=datetime.datetime.now().year)
+    to_year = models.IntegerField('to year', choices=YEAR_CHOICES, default=datetime.datetime.now().year)
     is_currently_working = models.BooleanField()
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
 

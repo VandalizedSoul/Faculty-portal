@@ -117,12 +117,12 @@
 
 
                                 <div class="md-form">
-                                    <i class="fas fa-user prefix"></i>
+                                    <i class="fa fa-user prefix"></i>
                                     <input type="text" name="username" class="form-control" id="username1" required>
                                     <label for="username1">Username</label>
                                 </div>
                                 <div class="md-form">
-                                    <i class="fas fa-lock prefix"></i>
+                                    <i class="fa fa-lock prefix"></i>
                                     <input type="password" name="password" id="password1" required class="form-control">
                                     <label for="password1">Password</label>
                                     <p class="font-small grey-text d-flex justify-content-end">Forgot <a
@@ -130,11 +130,7 @@
                                             class="dark-grey-text ml-1 font-weight-bold"> Password?</a></p>
 
                                 </div>
-                                <!--                  <div class="md-form">-->
-                                <!--                    <i class="fas fa-pencil-alt prefix grey-text"></i>-->
-                                <!--                    <textarea type="text" id="form8" class="md-textarea"></textarea>-->
-                                <!--                    <label for="form8">Your message</label>-->
-                                <!--                  </div>-->
+
 
                                 <div class="text-center">
                                     <button class="btn btn-indigo" type="submit">Login</button>
@@ -149,10 +145,7 @@
                                         {% endif %}
                                     </p>
                                     <hr>
-                                    <!--                    <fieldset class="form-check">-->
-                                    <!--                      <input type="checkbox" class="form-check-input" id="checkbox1">-->
-                                    <!--                      <label for="checkbox1" class="form-check-label dark-grey-text">Subscribe me to the newsletter</label>-->
-                                    <!--                    </fieldset>-->
+
                                 </div>
 
                             </form>
@@ -162,15 +155,6 @@
                                 <p>First time user? <a href="/login/change" class="blue-text">Generate Password</a></p>
 
                             </div>
-                            <!--              <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close</button>-->
-
-
-                            <!-- Form -->
-                            <!--<div class="text-center">-->
-                            <!--                   <form action="/login/change" method="POST" >{% csrf_token %}-->
-                            <!--          <button class="btn btn-indigo" type="submit" x>Generate/Change password</button>-->
-                            <!--        </form>-->
-                            <!--</div>-->
 
                         </div>
 
@@ -192,31 +176,5 @@
 </div>
 <!--End of login form-->
 
-
-<!--   <section style="padding-top:50px">-->
-<!--    <h5>-->
-<!--      {% if messages %}-->
-<!--        {% for message in messages %}-->
-
-<!--            -->
-<!--              {{message}}-->
-<!--   -->
-<!--        {% endfor %}-->
-<!--      {% endif %}-->
-<!--   </h5>-->
-<!--    ** If you are visiting first time then proceed for password generation-->
-<!--      <h1>Login</h1>-->
-<!--      <form action="/login/auth" method="POST" >{% csrf_token %}-->
-<!--                <input type="text" placeholder=" " name="username" id="username" required>-->
-<!--            <label for="username" >Username</label>-->
-<!--            <input type="password" placeholder=" " name="password"  id="password" required>-->
-<!--            <label for="password" >Password</label>-->
-<!--            <button type="submit" >Login</button>-->
-<!--      </form>-->
-<!--        <br/>-->
-<!--      <form action="/login/change" method="POST" >{% csrf_token %}-->
-<!--          <button type="submit" x>Generate/Change password</button>-->
-<!--        </form>-->
-<!--   </section>-->
 
 {% endblock %}

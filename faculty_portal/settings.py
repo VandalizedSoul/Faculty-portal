@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-import os
+import os, sys
 import mimetypes
 mimetypes.add_type("text/css", ".css", True)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -31,8 +31,11 @@ ALLOWED_HOSTS = []
 SITE_ID = 1
 # Application definition
 
+
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+LOGIN_URL = '/login'
+APPEND_SLASH=True
 
 
 LANGUAGES = [
@@ -40,19 +43,25 @@ LANGUAGES = [
     ('de', 'German'),
 ]
 
-INSTALLED_APPS = [
-    'login',
-'todolist',
-    'django.contrib.sites',
 
+TEST_WITHOUT_MIGRATIONS_COMMAND = 'django_nose.management.commands.test.Command'
+
+INSTALLED_APPS = [
+    # 'test_without_migrations',
+    'django_extensions',
+    'rest_framework',
+    'chat',
+    'login',
+    'todolist',
+    'django.contrib.sites',
     'menus',
     'treebeard',
     'details.apps.DetailsConfig',
     'bootstrap_modal_forms',
     'widget_tweaks',
-'filer',
-'easy_thumbnails',
-'mptt',
+    # 'filer',
+    'easy_thumbnails',
+    'mptt',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -74,15 +83,17 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'faculty_portal.urls'
 
+SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(SETTINGS_PATH, 'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.i18n',
-                'sekizai.context_processors.sekizai',
+                # 'sekizai.context_processors.sekizai',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -187,7 +198,24 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "media"),
 ]
 
+
+TESTING = 'test' in sys.argv[1:]
+if TESTING:
+    print('=========================')
+    print('In TEST Mode - Disableling Migrations')
+    print('=========================')
+
+    class DisableMigrations(object):
+
+        def __contains__(self, item):
+            return True
+
+        def __getitem__(self, item):
+            return "notmigrations"
+
+    MIGRATION_MODULES = DisableMigrations()
 
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'

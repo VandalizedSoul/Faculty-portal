@@ -5,6 +5,8 @@ from django.shortcuts import render,redirect
 from details.models import Faculty
 from django.utils import timezone
 from .models import TodoList, Category
+
+
 def index(request): #the index view
     todos = TodoList.objects.filter(faculty=Faculty.objects.get(faculty_id= request.session.get('faculty_id', None))) #quering all todos with the object mana
 
@@ -33,7 +35,7 @@ def index(request): #the index view
             if str(todo.due_date) == str(timezone.now().strftime("%Y-%m-%d")):
                 print(todo.due_date,timezone.now().strftime("%Y-%m-%d"))
                 notificationArr.append(todo)
-    return render(request, "index.html", {"todos": todos, "categories":categories,"notification":notificationArr})
+    return render(request, "index.html", {"todos": todos, "categories":categories,"notification":notificationArr,'request':request})
 
 # def notification(request):
 #     todos=TodoList.objects.all()

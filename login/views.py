@@ -21,22 +21,18 @@ def login(request):
 
 def auth_view(request):
     try:
+        username = request.POST.get('username', '').upper()
+        password = request.POST.get('password', '')
         if request.user.is_authenticated:
             '''if request.user.is_superuser:
                 return render(request,' index.html')'''
-            next = request.POST.get('next', '/')
-            return HttpResponseRedirect(next)
-            # return HttpResponseRedirect('/polls/facultydetails/20CE002/#')
+            return HttpResponseRedirect('/polls/facultydetails/'+username.upper()+'/')
 
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
         user = auth.authenticate(username=username.upper(), password=password)
         if user is not None:
             auth.login(request, user)
             print("logged in")
             request.session['faculty_id'] = username
-            # next = request.POST.get('next', '/')
-            # return HttpResponseRedirect(next)
             return HttpResponseRedirect('/polls/facultydetails/'+username+'/#')
 
         else:
@@ -57,7 +53,6 @@ def logout(request):
                              'You are Successfully Logged Out')
         messages.add_message(request, messages.INFO, 'Thanks for visiting.')
         # request.session.clear()
-        # return HttpResponseRedirect('request.path')
         return HttpResponseRedirect('/login/')
     except:
         messages.add_message(request, messages.WARNING,
