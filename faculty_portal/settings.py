@@ -37,7 +37,6 @@ MEDIA_URL = '/media/'
 LOGIN_URL = '/login'
 APPEND_SLASH=True
 
-
 LANGUAGES = [
     ('en-us', 'English'),
     ('de', 'German'),
@@ -71,6 +70,7 @@ INSTALLED_APPS = [
 
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -92,6 +92,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                # 'cms.context_processors.cms_settings',
                 'django.template.context_processors.i18n',
                 # 'sekizai.context_processors.sekizai',
                 'django.template.context_processors.debug',
@@ -102,7 +103,6 @@ TEMPLATES = [
         },
     },
 ]
-
 
 
 
@@ -199,6 +199,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     os.path.join(BASE_DIR, "media"),
+<<<<<<< HEAD
 ]
 
 
@@ -219,3 +220,13 @@ if TESTING:
     MIGRATION_MODULES = DisableMigrations()
 
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+=======
+<<<<<<< HEAD
+]
+
+
+# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+=======
+]
+>>>>>>> master
+>>>>>>> master

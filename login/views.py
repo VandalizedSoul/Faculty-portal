@@ -14,6 +14,8 @@ from . import api
 
 
 def login(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/polls/home/')
     c = {}
     c.update(csrf(request))
     return render(request, 'login.html', c)
@@ -38,8 +40,8 @@ def auth_view(request):
         else:
             print("incorrect cred")
             messages.add_message(request, messages.WARNING,
-                                 'Incorrect Username or Password')
-            return HttpResponseRedirect('/login/login')
+                                 'Incorect Username or Password')
+            return HttpResponseRedirect('/login')
     except:
         return render(request, 'login.html')
 
@@ -66,8 +68,10 @@ def createPassword(request, faculty_id='16CE001'):
 
 
 def changeUser(request):
-    username = request.POST.get('faculty_id', '')
+    username = request.POST.get('faculty_id', '').upper()
     password = request.POST.get('password', '')
+    print(User.objects.all())
+    # user = User.objects.get(username=username)
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
@@ -95,6 +99,8 @@ def generatePassword(request):
         return HttpResponseRedirect('/login/change')
     # faculty_id = '16CE001'
     faculty = Faculty.objects.filter(faculty_id=faculty_id).first()
+    if(faculty==None):
+        return render(request, 'change.html', {'sent': False, 'faculty_id': faculty_id,'message':'Enter correct faculty ID!'})
     # print('faculty',faculty)
     phone = faculty.phone.__str__()
     verification = client.verify.services(

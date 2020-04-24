@@ -16,6 +16,7 @@ from django.shortcuts import render_to_response
 from django.views.generic import TemplateView
 from django.http import HttpResponseRedirect
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from django.template.context_processors import csrf
 from django.urls import reverse_lazy
 from django.views import generic
@@ -63,6 +64,8 @@ def changeImage(request):
     #     faculty_name=faculty_id).update(image=image)
     return HttpResponseRedirect('/polls/facultydetails/'+faculty_id+'/')
 
+def invalidlogin(request):
+    return render(request,'invalidlogin.html')
 
 @login_required
 def deleteImage(request):
@@ -91,6 +94,7 @@ def profile_image_view(request):
 
 
 class QualificationCreateView(BSModalCreateView):
+    login_required = True   
     form_class = QualificationForm
     template_name = 'create_qualification.html'
     success_message = 'Success: Qualification was created.'
@@ -111,6 +115,7 @@ class QualificationCreateView(BSModalCreateView):
 
 
 class CertificationCreateView(BSModalCreateView):
+    login_required = True
     template_name = 'create_qualification.html'
     form_class = CertificationForm
     success_message = 'Success: Certification was created.'
@@ -130,6 +135,7 @@ class CertificationCreateView(BSModalCreateView):
 
 
 class PublicationCreateView(BSModalCreateView):
+    login_required = True
     template_name = 'create_qualification.html'
     form_class = PublicationForm
     success_message = 'Success: Publication was created.'
@@ -149,6 +155,7 @@ class PublicationCreateView(BSModalCreateView):
 
 
 class AwardCreateView(BSModalCreateView):
+    login_required = True
     template_name = 'create_qualification.html'
     form_class = AwardForm
     success_message = 'Success: Award was created.'
@@ -168,6 +175,7 @@ class AwardCreateView(BSModalCreateView):
 
 
 class OrganizationCreateView(BSModalCreateView):
+    login_required = True
     template_name = 'create_qualification.html'
     form_class = OrganizationForm
     success_message = 'Success: Organization was created.'
@@ -188,6 +196,7 @@ class OrganizationCreateView(BSModalCreateView):
 
 # update views
 class QualificationUpdateView(BSModalUpdateView):
+    login_required = True
     model = Qualification
     template_name = 'update_qualification.html'
     form_class = QualificationForm
@@ -209,6 +218,7 @@ class QualificationUpdateView(BSModalUpdateView):
 
 
 class AboutUpdateView(BSModalUpdateView):
+    login_required = True
     model = Faculty
     template_name = 'update_qualification.html'
     form_class = AboutForm
@@ -219,6 +229,7 @@ class AboutUpdateView(BSModalUpdateView):
 
 
 class CertificationUpdateView(BSModalUpdateView):
+    login_required = True
     model = Certification
     template_name = 'update_qualification.html'
     form_class = CertificationForm
@@ -240,6 +251,7 @@ class CertificationUpdateView(BSModalUpdateView):
 
 
 class AwardUpdateView(BSModalUpdateView):
+    login_required = True
     model = Award
     template_name = 'update_qualification.html'
     form_class = AwardForm
@@ -261,6 +273,7 @@ class AwardUpdateView(BSModalUpdateView):
 
 
 class PublicationUpdateView(BSModalUpdateView):
+    login_required = True
     model = ProfileForm
     template_name = 'update_qualification.html'
     form_class = PublicationForm
@@ -282,6 +295,7 @@ class PublicationUpdateView(BSModalUpdateView):
 
 
 class TeachingInterestUpdateView(BSModalUpdateView):
+    login_required = True
     model = Faculty
     template_name = 'update_qualification.html'
     form_class = TeachingInterestForm
@@ -292,6 +306,7 @@ class TeachingInterestUpdateView(BSModalUpdateView):
 
 
 class SpecializationUpdateView(BSModalUpdateView):
+    login_required = True
     model = Faculty
     template_name = 'update_qualification.html'
     form_class = SpecializationForm
@@ -302,6 +317,7 @@ class SpecializationUpdateView(BSModalUpdateView):
 
 
 class OrganizationUpdateView(BSModalUpdateView):
+    login_required = True
     model = Organization
     template_name = 'update_qualification.html'
     form_class = OrganizationForm
@@ -323,12 +339,14 @@ class OrganizationUpdateView(BSModalUpdateView):
 
 
 class QualificationReadView(BSModalReadView):
+    login_required = True
     model = Faculty
     template_name = 'read_qualification.html'
 
 
 # Delete Views
 class QualificationDeleteView(BSModalDeleteView):
+    login_required = True
     model = Qualification
     template_name = 'delete_qualification.html'
     success_message = 'Success: Qualification was deleted.'
@@ -338,6 +356,7 @@ class QualificationDeleteView(BSModalDeleteView):
 
 
 class OrganizationDeleteView(BSModalDeleteView):
+    login_required = True
     model = Organization
     template_name = 'delete_qualification.html'
     success_message = 'Success: Organization was deleted.'
@@ -347,6 +366,7 @@ class OrganizationDeleteView(BSModalDeleteView):
 
 
 class CertificationDeleteView(BSModalDeleteView):
+    login_required = True
     model = Certification
     template_name = 'delete_qualification.html'
     success_message = 'Success: Certification was deleted.'
@@ -356,6 +376,7 @@ class CertificationDeleteView(BSModalDeleteView):
 
 
 class AwardDeleteView(BSModalDeleteView):
+    login_required = True
     model = Award
     template_name = 'delete_qualification.html'
     success_message = 'Success: Award was deleted.'
@@ -365,6 +386,7 @@ class AwardDeleteView(BSModalDeleteView):
 
 
 class PublicationDeleteView(BSModalDeleteView):
+    login_required = True
     model = Publication
     template_name = 'delete_qualification.html'
     success_message = 'Success: Publication was deleted.'
