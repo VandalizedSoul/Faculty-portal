@@ -2,7 +2,7 @@
 from djongo import models
 from django import forms
 from phonenumber_field.modelfields import PhoneNumberField
-from month.models import MonthField
+# from month.models import MonthField
 import datetime
 # from django_month_year_widget.widgets import MonthYearWidget
 
@@ -44,12 +44,7 @@ class Faculty(models.Model):
     biography = models.TextField(null=True)
     specializations = models.ArrayField(model_container=Topic, model_form_class=TopicForm, null=True)
     teaching_interests = models.ArrayField(model_container=Topic, null=True)
-    # certifications = models.ArrayField(model_container=Certification, null=True)
-    # publications = models.ArrayField(model_container=Publication, null=True)
-    # awards = models.ArrayField(model_container=Award, null=True)
-    # organizations = models.ArrayField(model_container=Organization, null=True)
     faculty_type = models.CharField(max_length=10, null=True)
-    # subjects = models.ArrayField(model_container=Topic, null=True)
 
     class Meta:
         verbose_name_plural = "faculties"

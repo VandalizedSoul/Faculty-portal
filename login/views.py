@@ -34,9 +34,8 @@ def auth_view(request):
         if user is not None:
             auth.login(request, user)
             print("logged in")
-            request.session['faculty_id'] = username.upper()
-            print('inside login view', request.session.get('faculty_id', None))
-            return HttpResponseRedirect('/polls/home/')
+            request.session['faculty_id'] = username
+            return HttpResponseRedirect('/polls/facultydetails/'+username+'/#')
 
         else:
             print("incorrect cred")

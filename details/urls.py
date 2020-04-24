@@ -1,7 +1,9 @@
 from django.urls import path
 
-from . import views
+
 from django.conf.urls import url
+from . import views
+
 from django.contrib import admin
 from django.urls import path
 from django.conf import settings
@@ -11,16 +13,9 @@ from .views import *
 
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    # url(r'Home', views.HomePageView.as_view()),
-    # url(r'^login/$', login),
-    url(r'^addinfo/$', views.addinfo),
-    # url(r'^auth/$', auth_view),
     url(r'^home/$', home, name='home'),
     url(r'^facultydetails/(?P<faculty_id>[a-zA-Z0-9]+)/$', views.facultydetails, name='facultydetails'),
-    url(r'^invalidlogin/$', invalidlogin),
 
-    # path('create_qualification/', views.QualificationCreateView.as_view(), name='create_qualification'),
     url(r'^create_qualification/(?P<faculty_id>[a-zA-Z0-9]+)/$', views.QualificationCreateView.as_view(),
         name='create_qualification'),
     url(r'^create_organization/(?P<faculty_id>[a-zA-Z0-9]+)/$', views.OrganizationCreateView.as_view(),
@@ -48,8 +43,6 @@ urlpatterns = [
     url(r'^update_specialization/(?P<faculty_id>[a-zA-Z0-9]+)/(?P<pk>[0-9]+)$',
         views.SpecializationUpdateView.as_view(), name='update_specialization'),
 
-    path('read/<int:pk>', views.QualificationReadView.as_view(), name='read_qualification'),
-
     path('delete_qualification/<int:pk>', views.QualificationDeleteView.as_view(), name='delete_qualification'),
     path('delete_organization/<int:pk>', views.OrganizationDeleteView.as_view(), name='delete_organization'),
     path('delete_certification/<int:pk>', views.CertificationDeleteView.as_view(), name='delete_certification'),
@@ -57,7 +50,7 @@ urlpatterns = [
     path('delete_publication/<int:pk>', views.PublicationDeleteView.as_view(), name='delete_publication'),
 
     path('success', success, name='success'),
-    path('changeImage', changeImage),
-    path('deleteImage', deleteImage),
-    # path('signup/', views.SignUpView.as_view(), name='signup'),
+    path('changeImage', changeImage, name='changeImage'),
+    path('deleteImage', deleteImage, name='deleteImage'),
+
 ]

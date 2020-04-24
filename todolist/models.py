@@ -23,6 +23,7 @@ class TodoList(models.Model): #Todolist able name that inherits models.Model
     # def_faculty=Faculty.get.filter(faculty_id="20CE001")
     def_faculty = str(Faculty.objects.get(faculty_id="20CE001"))
     faculty=models.ForeignKey(Faculty,on_delete=models.CASCADE,default=def_faculty)
+
     class Meta:
         ordering = ["-created"] #ordering by the created field
 

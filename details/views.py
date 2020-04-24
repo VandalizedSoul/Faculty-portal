@@ -20,7 +20,12 @@ from django.contrib.auth.decorators import login_required
 from django.template.context_processors import csrf
 from django.urls import reverse_lazy
 from django.views import generic
-
+from todolist.models import TodoList
+from django.utils import timezone
+from chat.models import Message
+from django.contrib.auth.models import User
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 from bootstrap_modal_forms.generic import (BSModalLoginView,
                                            BSModalCreateView,
                                            BSModalUpdateView,
@@ -45,44 +50,22 @@ from django.shortcuts import redirect
 from .forms import *
 
 
-def facultydetails(request, faculty_id):
-    # faculty_id = request.GET.get('id')
-    print(faculty_id)
-    faculty = Faculty.objects.get(faculty_id=faculty_id)
-    qualification = Qualification.objects.all().filter(faculty=faculty)
-    publication = Publication.objects.all().filter(faculty=faculty)
-    award = Award.objects.all().filter(faculty=faculty)
-    organization = Organization.objects.all().filter(faculty=faculty)
-    certification = Certification.objects.all().filter(faculty=faculty)
-    latest_qualification = Qualification.objects.latest('to_year')
-    print('latest Q',latest_qualification)
-    print(qualification, 'q')
-    context = {'faculty': faculty, 'qualifications': qualification, 'publications': publication, 'awards': award, 'organizations': organization, 'certifications': certification, 'latest_qualification': latest_qualification}
-    context.update(csrf(request))
-    return render(request,'facultydetails.html', context)
-
-
-def invalidlogin(request):
-    return render(request,'invalidlogin.html')
-
-def home(request):
-    # auth.logout(request)
-    faculties = Faculty.objects.filter()
-    return render(request,'home.html', {"faculties": faculties})
-
 @login_required
 def changeImage(request):
     faculty_id = request.POST.get('faculty_id', '')
     image = request.FILES['profile']
-    print('image post',image)
+    print('image post', image)
     faculty = Faculty.objects.filter(faculty_id=faculty_id).first()
     faculty.image = image
     faculty.save()
     print("image after save",faculty.image)
-    # handle_uploaded_file(faculty_id,image)  
+    # handle_uploaded_file(faculty_id,image)
     # faculty = Faculty.objects.filter(
     #     faculty_name=faculty_id).update(image=image)
     return HttpResponseRedirect('/polls/facultydetails/'+faculty_id+'/')
+
+def invalidlogin(request):
+    return render(request,'invalidlogin.html')
 
 @login_required
 def deleteImage(request):
@@ -96,6 +79,19 @@ def deleteImage(request):
 
 def success(request):
     return HttpResponse('successfully uploaded')
+
+
+def profile_image_view(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+            return render_to_response('facultydetails.html', context_instance=RequestContext(request))
+    else:
+        form = ProfileForm()
+    return render(request, 'profile_image_form.html', {'form': form})
+
 
 class QualificationCreateView(BSModalCreateView):
     login_required = True   
@@ -399,23 +395,73 @@ class PublicationDeleteView(BSModalDeleteView):
         return reverse_lazy('facultydetails', kwargs={'faculty_id': self.request.session.get('faculty_id', None)})
 
 
-def getstudentinfo(request):
-    c = {}
-    c.update(csrf(request))
-    return render(request,'addstudentinfo.html', c)
+def facultydetails(request, faculty_id):
+    print("faculty: ", faculty_id)
+
+    faculty = Faculty.objects.get(faculty_id=faculty_id)
+    qualification = Qualification.objects.all().filter(faculty=faculty)
+    publication = Publication.objects.all().filter(faculty=faculty)
+    award = Award.objects.all().filter(faculty=faculty)
+    organization = Organization.objects.all().filter(faculty=faculty)
+    certification = Certification.objects.all().filter(faculty=faculty)
+    login_faculty_id = request.session.get('faculty_id', None)
+    latest_messages = Message.objects.filter(sender=request.user.id)
+
+    todos=[]
+    if login_faculty_id==faculty.faculty_id:
+        todos = TodoList.objects.filter(faculty=Faculty.objects.get(faculty_id=request.session.get('faculty_id', None)))  # quering all todos with the object mana
+    notificationArr = []
+    if (todos):
+        for todo in todos:
+            print(todo.due_date, timezone.now().strftime("%Y-%m-%d"))
+            if str(todo.due_date) == str(timezone.now().strftime("%Y-%m-%d")):
+                print(todo.due_date, timezone.now().strftime("%Y-%m-%d"))
+                notificationArr.append(todo)
+    todo_no = len(notificationArr)
+    print("notificai", notificationArr)
+    if qualification:
+        latest_qualification = Qualification.objects.all().filter(faculty=faculty).latest('to_year')
+    else:
+        latest_qualification=None
+    print('latest Q', latest_qualification)
+    print(qualification, 'q')
+    login_faculty_id = request.session.get('faculty_id', None)
+    print('login_fid', login_faculty_id)
+
+    if login_faculty_id==faculty.faculty_id:
+        print("same login")
+
+    print("ID's",login_faculty_id,faculty.faculty_id)
+    faculties = Faculty.objects.filter()
+    users = User.objects.exclude(username=request.user.username)
+    latest_msgs = []
+    print('users:', users)
+    for user in users:
+        print("id", user.id, user.username)
+        latest_msg = Message.objects.filter(sender=user.id, receiver=request.user.id).order_by('-timestamp').first()
+        # if latest_msg is not None:
+        latest_msgs.append(latest_msg)
+
+    print('lms', latest_msgs)
+    context = {'faculty': faculty, 'qualifications': qualification, 'publications': publication, 'awards': award, 'organizations': organization, 'certifications': certification, 'latest_qualification': latest_qualification, 'login_faculty_id': login_faculty_id, 'todo_no': todo_no, 'notificationArr': notificationArr, 'faculties': faculties, 'users': users, 'sid': request.user.id, 'request': request, 'latest_msgs': latest_msgs}
+    context.update(csrf(request))
+    return render_to_response('facultydetails.html', context)
 
 
-def addinfo(request):
-    # sname = request.POST.get('organization_name', '')
-    # sposition = request.POST.get('position', '')
-    # s = Faculty()
-    # s.save()
-    c = {}
-    c.update(csrf(request))
-    return render(request,'addinfo.html', c)
-    # return HttpResponseRedirect('/polls/facultydetails/')
+def home(request):
+    # auth.logout(request)
+    if request.method == "GET":
+        query = request.GET.get('Search')
+        print("search", query)
+        if query:
+            faculties = Faculty.objects.filter(Q(faculty_name__icontains=query) | Q(department__icontains=query) | Q(faculty_id__icontains=query))
+            # for faculty in faculties:
+            #     qualification = Qualification.objects.filter(faculty=faculty,degree=query)
+            #     if qualification:
+            #         pass
 
-
-class StudentListView(generic.ListView):
-    model = Faculty
-
+            # print(faculties)
+        else:
+            faculties = Faculty.objects.filter()
+    login_faculty_id = request.session.get('faculty_id', None)
+    return render_to_response('home.html', {"faculties": faculties, 'login_faculty_id': login_faculty_id,'request':request})
